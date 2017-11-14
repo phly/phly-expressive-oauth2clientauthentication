@@ -1,0 +1,9 @@
+docs_dir: docs/book
+site_dir: docs/html
+pages:
+    - index.md
+    - Introduction: intro.md
+site_name: Component Name Goes Here
+site_description: 'Component Description goes here'
+repo_url: 'https://github.com/phly/phly-expressive-oauth2clientauthentication'
+copyright: 'Copyright (c) 2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
