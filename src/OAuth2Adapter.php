@@ -5,7 +5,7 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\OAuth2ClientAuthentication;
+namespace Phly\Expressive\OAuth2ClientAuthentication;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;

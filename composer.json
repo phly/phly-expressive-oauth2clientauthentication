@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Phly\\OAuth2ClientAuthentication\\": "src/"
+            "Phly\\Expressive\\OAuth2ClientAuthentication\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhlyTest\\OAuth2ClientAuthentication\\": "test/"
+            "PhlyTest\\Expressive\\OAuth2ClientAuthentication\\": "test/"
         }
     },
     "config": {

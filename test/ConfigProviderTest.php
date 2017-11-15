@@ -1,14 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/phly/phly-expressive-oauth2clientauthentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/phly/phly-expressive-oauth2clientauthentication/blob/master/LICENSE.md New BSD License
+ * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
+ * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\OAuth2ClientAuthentication;
+namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
 
 use PHPUnit\Framework\TestCase;
-use Phly\OAuth2ClientAuthentication\ConfigProvider;
+use Phly\Expressive\OAuth2ClientAuthentication\ConfigProvider;
 
 class ConfigProviderTest extends TestCase
 {

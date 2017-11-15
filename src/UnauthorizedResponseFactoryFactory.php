@@ -5,7 +5,7 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\OAuth2ClientAuthentication;
+namespace Phly\Expressive\OAuth2ClientAuthentication;
 
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;

@@ -1,25 +1,20 @@
 <?php
 
-namespace Phly\OAuth2ClientAuthentication;
+/**
+ * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
+ * @copyright Copyright (c) Matthew Weier O'Phinney
+ */
+
+namespace Phly\Expressive\OAuth2ClientAuthentication;
 
 use Zend\Expressive\Authentication\AuthenticationInterface;
 
 /**
- * The configuration provider for the OAuth2ClientAuthentication module
- *
- * @see https://docs.zendframework.com/zend-component-installer/
+ * The configuration provider for the OAuth2ClientAuthentication module.
  */
 class ConfigProvider
 {
-    /**
-     * Returns the configuration array
-     *
-     * To add a bit of a structure, each section is defined in a separate
-     * method which returns an array with its configuration.
-     *
-     * @return array
-     */
-    public function __invoke()
+    public function __invoke() : array
     {
         return [
             'dependencies' => $this->getDependencies(),
@@ -27,12 +22,7 @@ class ConfigProvider
         ];
     }
 
-    /**
-     * Returns the container dependencies
-     *
-     * @return array
-     */
-    public function getDependencies()
+    public function getDependencies() : array
     {
         return [
             'aliases' => [
@@ -48,12 +38,7 @@ class ConfigProvider
         ];
     }
 
-    /**
-     * Returns the templates configuration
-     *
-     * @return array
-     */
-    public function getTemplates()
+    public function getTemplates() : array
     {
         return [
             'paths' => [
