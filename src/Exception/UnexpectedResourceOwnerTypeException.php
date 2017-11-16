@@ -5,7 +5,7 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Expressive\OAuth2ClientAuthentication\Exception;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use RuntimeException;

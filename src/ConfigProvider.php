@@ -18,7 +18,8 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
+            'oauth2clientauthentication' => [],
+            'templates' => $this->getTemplates(),
         ];
     }
 

@@ -15,8 +15,11 @@ class OAuth2ProviderFactory
 {
     const PROVIDER_MAP = [
         'debug'  => Debug\DebugProvider::class,
+        'facebook' => Provider\Facebook::class,
         'github' => Provider\Github::class,
         'google' => Provider\Google::class,
+        'instagram' => Provider\Instagram::class,
+        'linkedin' => Provider\LinkedIn::class,
     ];
 
     /**
@@ -31,14 +34,17 @@ class OAuth2ProviderFactory
 
     public function createProvider(string $name) : Provider\AbstractProvider
     {
-        if (! in_array($name, array_keys(self::PROVIDER_MAP), true)) {
-            throw new RuntimeException(sprintf(
-                'Unsupported OAuth2 provider "%s"',
-                $name
-            ));
+        $knownProviders = array_keys(self::PROVIDER_MAP);
+        if (! in_array($name, $knownProviders, true)) {
+            throw Exception\UnsupportedProviderException::forProvider($name, $knownProviders);
         }
 
-        $config   = $this->container->get('config')['oauth2'];
+        $config = $this->container->get('config')['oauth2clientauthentication'] ?? [];
+
+        if (! isset($config[$name])) {
+            throw Exception\MissingProviderConfigException::forProvider($name);
+        }
+
         $provider = self::PROVIDER_MAP[$name];
 
         return new $provider($config[$name]);

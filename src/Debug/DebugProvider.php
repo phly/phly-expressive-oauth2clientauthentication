@@ -19,6 +19,16 @@ class DebugProvider extends AbstractProvider
     const TOKEN = 'TOKEN';
 
     /**
+     * @var string
+     */
+    private $authorizationUrl;
+
+    public function __construct(array $options = [])
+    {
+        $this->authorizationUrl = $options['authorization_url'] ?? self::AUTHORIZATION_URL;
+    }
+
+    /**
      * @return string
      */
     public function getState()
@@ -32,7 +42,7 @@ class DebugProvider extends AbstractProvider
      */
     public function getAuthorizationUrl(array $options = [])
     {
-        return self::AUTHORIZATION_URL;
+        return $this->authorizationUrl;
     }
 
     /**

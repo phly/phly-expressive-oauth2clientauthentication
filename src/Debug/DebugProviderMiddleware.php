@@ -14,21 +14,27 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class DebugProviderMiddleware implements MiddlewareInterface
 {
+    const DEFAULT_PATH_TEMPLATE = '/auth/debug/oauth2callback?code=%s&state=%s';
+
+    /**
+     * @var string
+     */
+    private $pathTemplate;
+
+    /**
+     * @var callable
+     */
     private $redirectResponseFactory;
 
-    public function __construct(callable $redirectResponseFactory)
+    public function __construct(callable $redirectResponseFactory, string $pathTemplate = self::DEFAULT_PATH_TEMPLATE)
     {
         $this->redirectResponseFactory = $redirectResponseFactory;
+        $this->pathTemplate = $pathTemplate;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate) : ResponseInterface
     {
-        $uri = sprintf(
-            '/auth/debug/oauth2callback?code=%s&state=%s',
-            DebugProvider::CODE,
-            DebugProvider::STATE
-        );
-
+        $uri = sprintf($this->pathTemplate, DebugProvider::CODE, DebugProvider::STATE);
         return ($this->redirectResponseFactory)($uri);
     }
 }

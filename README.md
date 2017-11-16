@@ -21,4 +21,4 @@ Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdoc
 $ mkdocs build
 ```
 
-You may also [browse the documentation online](https://docs.zendframework.com/phly-expressive-oauth2clientauthentication/).
+You may also [browse the documentation online](https://phly.github.io/phly-expressive-oauth2clientauthentication/).

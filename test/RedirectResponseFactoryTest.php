@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
+ * @copyright Copyright (c) Matthew Weier O'Phinney
+ */
+
+namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+
+use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactoryFactory;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+
+class RedirectResponseFactoryTest extends TestCase
+{
+    public function setUp()
+    {
+        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->factory = new RedirectResponseFactoryFactory();
+    }
+
+    public function testServiceFactoryReturnsCallable()
+    {
+        $responseFactory = ($this->factory)($this->container->reveal());
+        $this->assertInternalType('callable', $responseFactory);
+    }
+
+    public function testResponseFactoryReturns302ResponseWithLocationBasedOnUrlArgument()
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+        $response->withHeader('Location', '/some/url')->will([$response, 'reveal']);
+        $response->withStatus(302)->will([$response, 'reveal']);
+        $this->container->get(ResponseInterface::class)->will([$response, 'reveal']);
+
+        $factory = ($this->factory)($this->container->reveal());
+        $result = $factory('/some/url');
+        $this->assertSame($response->reveal(), $result);
+    }
+}

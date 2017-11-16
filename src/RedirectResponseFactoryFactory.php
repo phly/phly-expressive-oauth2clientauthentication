@@ -7,7 +7,7 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class RedirectResponseFactoryFactory

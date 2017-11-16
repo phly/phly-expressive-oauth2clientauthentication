@@ -106,7 +106,7 @@ class OAuth2Adapter implements AuthenticationInterface
             ]);
 
             $resourceOwner = $provider->getResourceOwner($token);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->processError($e);
         }
 
@@ -176,19 +176,19 @@ class OAuth2Adapter implements AuthenticationInterface
     {
         $data = $session->get('auth');
         $username = $data['user']['username'];
-        return new OAuth2User($username, $data);
+        return new OAuth2User($username, $data['user']);
     }
 
     /**
      * @param string|\Throwable
-     * @throws Exception
+     * @throws Exception\OAuth2ClientAuthentication
      */
     private function processError($error)
     {
         if (is_string($error)) {
-            throw new RuntimeException($error, 401);
+            throw Exception\OAuth2ProviderException::forErrorString($error);
         }
-        throw new RuntimeException($error->getMessage(), 401, $error);
+        throw Exception\OAuth2ProviderException::forThrowable($error);
     }
 
     private function requestAuthorization(
@@ -220,7 +220,7 @@ class OAuth2Adapter implements AuthenticationInterface
             // All official providers except Instagram
             return $resourceOwner->getEmail();
         }
-        
+
         if (method_exists($resourceOwner, 'getNickname')) {
             // Instagram
             return $resourceOwner->getNickname();
@@ -230,6 +230,6 @@ class OAuth2Adapter implements AuthenticationInterface
             return $resourceOwner->getId();
         }
 
-        throw UnexpectedResourceOwnerTypeException::forResourceOwner($resourceOwner);
+        throw Exception\UnexpectedResourceOwnerTypeException::forResourceOwner($resourceOwner);
     }
 }
