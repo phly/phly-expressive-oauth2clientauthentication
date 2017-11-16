@@ -7,7 +7,7 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication\Debug;
 
-use Phly\OAuth2ClientAuthentication\RedirectResponseFactory;
+use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactory;
 use Psr\Container\ContainerInterface;
 
 /**

@@ -9,7 +9,7 @@ namespace PhlyTest\Expressive\OAuth2ClientAuthentication\Debug;
 
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddlewareFactory;
-use Phly\OAuth2ClientAuthentication\RedirectResponseFactory;
+use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
