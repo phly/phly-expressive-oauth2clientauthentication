@@ -32,9 +32,11 @@
         "zendframework/zend-expressive-template": "^1.0"
     },
     "suggest": {
+        "league/oauth2-facebook": "To use the Facebook OAuth2 provider",
         "league/oauth2-github": "To use the GitHub OAuth2 provider",
         "league/oauth2-google": "To use the Google OAuth2 provider",
         "league/oauth2-instagram": "To use the Instagram OAuth2 provider",
+        "league/oauth2-linkedin": "To use the LinkedIn OAuth2 provider",
         "zendframework/zend-expressive-template": "To use the shipped UnauthorizedResponseFactory, which includes template support"
     },
     "autoload": {
