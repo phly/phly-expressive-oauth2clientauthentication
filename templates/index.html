@@ -8,7 +8,7 @@
     <meta name="description" content="league/oauth2-client adapter for zend-expressive-authentication">  
     <link rel="shortcut icon" href="../img/favicon.ico">
 
-    <title>Configuration - phly</title>
+    <title>Templates - phly</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
@@ -65,8 +65,8 @@
                         <ul class="dropdown-menu">
                         
                             
-<li class="active">
-    <a href="./">Configuration</a>
+<li >
+    <a href="../config/">Configuration</a>
 </li>
 
                         
@@ -77,8 +77,8 @@
 
                         
                             
-<li >
-    <a href="../templates/">Templates</a>
+<li class="active">
+    <a href="./">Templates</a>
 </li>
 
                         
@@ -122,28 +122,19 @@
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#configuration">Configuration</a></li>
+        <li class="main active"><a href="#login-templates">Login Templates</a></li>
         
-            <li><a href="#global-configuration">Global configuration</a></li>
+            <li><a href="#plates">Plates</a></li>
         
-            <li><a href="#localenvironment-specific-configuration">Local/Environment-specific configuration</a></li>
+            <li><a href="#twig">Twig</a></li>
         
-            <li><a href="#pipeline-configuration">Pipeline configuration</a></li>
+            <li><a href="#zend-view">zend-view</a></li>
         
-            <li><a href="#route-configuration">Route configuration</a></li>
+            <li><a href="#mustache">Mustache</a></li>
         
     
     </ul>
 
-    
-    <ul class="pager hidden-print">
-      <li class="previous">
-        <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
-      </li>
-      <li class="next">
-        <a rel="next" href="../debug/">Next <i class="fa fa-arrow-right"></i></a>
-      </li>
-    </ul>
     
 </div></div>
         <div class="col-md-9" role="main">
@@ -157,167 +148,124 @@
       
     
   
-  <li class="active">Configuration</li>
+  <li class="active">Templates</li>
 </ol>
 
-<h1 id="configuration">Configuration</h1>
-<p>In order to use this authentication adapter, you will need to provide
-configuration for the OAuth2 providers you plan to use.</p>
-<p>Examples are provided in the <code>config/</code> directory of this component, and repeated
-here for purposes of documentation:</p>
-<h2 id="global-configuration">Global configuration</h2>
-<p>This is configuration that should be present no matter what environment you are
-in, and it covers the base path for the OAuth2 client callbacks and debug
-provider URIs.</p>
-<pre class="codehilite"><code class="language-php">// e.g. config/autoload/oauth2-client.global.php:
+<h1 id="login-templates">Login Templates</h1>
+<p>This package ships with a number of built-in templates for displaying the
+"login" page when a user is unauthorized; these are in the <code>templates/</code>
+subdirectory, and map to the <code>oauth2clientauthentication::401</code> template.</p>
+<p>The templates provided expose links for each of the GitHub, Google, and (when
+enabled) Debug providers. Further, they are written using <a href="http://getbootstrap.com">Bootstrap
+theming</a>. As such, you will likely want to override
+them.</p>
+<p>Below, we demonstrate each of the default shipped versions.</p>
+<h2 id="plates">Plates</h2>
+<pre class="codehilite"><code class="language-php">&lt;?php $this-&gt;layout('layout::layout', [
+    'title' =&gt; 'Unauthorized',
+]); ?&gt;
 
-return [
-    'oauth2clientauthentication' =&gt; [
-        // Configure the base path for all OAuth2 client callbacks. By default,
-        // this is &quot;/auth&quot;.
-        // 'auth_path' =&gt; '/auth',
+&lt;section class=&quot;col-md-8 col-md-offset-2 code_401&quot;&gt;
+  &lt;h2&gt;Unauthorized&lt;/h2&gt;
 
-        // Configure the production and debug routes for OAuth2 client callbacks
-        // if desired. These strings will be relative to the 'auth_path' config
-        // as specified above.
-        'routes' =&gt; [
-            // Production path.
-            // 'production' =&gt; '/{provider:facebook|github|google|instagram}|linkedin[/oauth2callback]',
+  &lt;p&gt;
+    You are not logged in, and therefore cannot perform this action.
+  &lt;/p&gt;
 
-            // Debug path.
-            // 'debug' =&gt; '/{provider:debug|facebook|github|google|instagram|linkedin}[/oauth2callback]',
-        ],
-    ],
-];</code></pre>
+  &lt;p&gt;
+    Login to continue:
+  &lt;p&gt;
 
-<h2 id="localenvironment-specific-configuration">Local/Environment-specific configuration</h2>
-<p>This is configuration for the providers you wish to enable. You will need to
-review the [league/oauth2-client providers documentation](http://oauth2-client.thephpleague.com/providers/league/
-for links to both full configuration documentation, as well as resources on how
-to obtain the various client identifiers and secrets you will need to use.</p>
-<p>This information should <em>not</em> be shipped directly in your repository, but rather
-included as part of your application environment.</p>
-<pre class="codehilite"><code class="language-php">// e.g. config/autoload/oauth2-client.local.php:
+  &lt;div class=&quot;btn-group-vertical&quot; role=&quot;group&quot;&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;&lt;?= $auth_path ?&gt;/github?redirect=&lt;?= $redirect ?&gt;&quot;&gt;GitHub&lt;/a&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;&lt;?= $auth_path ?&gt;/google?redirect=&lt;?= $redirect ?&gt;&quot;&gt;Google&lt;/a&gt;
+    &lt;?php if ($debug) : ?&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;&lt;?= $auth_path ?&gt;/debug?redirect=&lt;?= $redirect ?&gt;&quot;&gt;Debug&lt;/a&gt;
+    &lt;?php endif ?&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
 
-return [
-    'oauth2clientauthentication' =&gt; [
-        // Debug
-        // This is the debug provider shipped within this component for purposes
-        // of testing the OAuth2 client workflow within your applications.
-        'debug' =&gt; [
-            // Provide this if you have provided an alternate route path via
-            // the oauth2clientauthentication.routes.debug key:
-            // 'callback_uri_template' =&gt; '/alternate/debug/callback?code=%s&amp;state=%s',
+<h2 id="twig">Twig</h2>
+<pre class="codehilite"><code class="language-twig">{% extends '@layout/default.html.twig' %}
 
-            // Provide this if you want to use an alternate path for the OAuth2
-            // &quot;server&quot; authorization:
-            // 'authorization_url' =&gt; '/alternate/debug/authorization',
-        ],
+{% block title %}404 Not Found{% endblock %}
 
-        // Facebook
-        // 'facebook' =&gt; [
-        //     'clientId' =&gt; '{facebook-app-id}',
-        //     'clientSecret' =&gt; '{facebook-app-secret}',
-        //     'redirectUri' =&gt; '', // based on the auth_path + production route; must be fully qualifed
-        //     'graphApiVersion' =&gt; 'v2.10',
-        // ],
+{% block content %}
+&lt;section class=&quot;col-md-8 col-md-offset-2 code_401&quot;&gt;
+  &lt;h2&gt;Unauthorized&lt;/h2&gt;
 
-        // GitHub
-        // 'github' =&gt; [
-        //     'clientId' =&gt; '{github-client-id}',
-        //     'clientSecret' =&gt; '{github-client-secret}',
-        //     'redirectUri' =&gt; '', // based on the auth_path + production route; must be fully qualifed
-        // ],
+  &lt;p&gt;
+    You are not logged in, and therefore cannot perform this action.
+  &lt;/p&gt;
 
-        // Google
-        // 'google' =&gt; [
-        //     'clientId' =&gt; '{google-client-id}',
-        //     'clientSecret' =&gt; '{google-client-secret}',
-        //     'redirectUri' =&gt; '', // based on the auth_path + production route; must be fully qualifed
-        //     'hostedDomain' =&gt; '', // scheme + domain of your app
-        // ],
+  &lt;p&gt;
+    Login to continue:
+  &lt;p&gt;
 
-        // Instagram
-        // 'instagram' =&gt; [
-        //     'clientId' =&gt; '{instagram-client-id}',
-        //     'clientSecret' =&gt; '{instagram-client-secret}',
-        //     'redirectUri' =&gt; '', // based on the auth_path + production route; must be fully qualifed
-        //     'host' =&gt; 'https://api.instagram.com', // Optional; this is the default
-        // ],
+  &lt;div class=&quot;btn-group-vertical&quot; role=&quot;group&quot;&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;{{ auth_path }}/github?redirect={{ redirect }}&quot;&gt;GitHub&lt;/a&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;{{ auth_path }}/google?redirect={{ redirect }}&quot;&gt;Google&lt;/a&gt;
+    {% if debug is defined %}
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;{{ auth_path }}/debug?redirect={{ redirect }}&quot;&gt;Debug&lt;/a&gt;
+    {% endif %}
+  &lt;/div&gt;
+&lt;/section&gt;
+{% endblock %}</code></pre>
 
-        // LinkedIn
-        // 'linkedin' =&gt; [
-        //     'clientId' =&gt; '{linkedin-client-id}',
-        //     'clientSecret' =&gt; '{linkedin-client-secret}',
-        //     'redirectUri' =&gt; '', // based on the auth_path + production route; must be fully qualifed
-        // ],
-    ],
-    'dependencies' =&gt; [
-        'factories' =&gt; [
-            // Enable this when in debug mode:
-            // Debug\DebugProviderMiddleware::class =&gt; Debug\DebugProviderMiddlewareFactory::class,
-        ],
-    ],
-];</code></pre>
+<h2 id="zend-view">zend-view</h2>
+<pre class="codehilite"><code class="language-php">&lt;?php $this-&gt;headTitle('Unauthorized') ?&gt;
 
-<h2 id="pipeline-configuration">Pipeline configuration</h2>
-<p>The various callbacks operate under a base path as specified by the
-<code>oauth2clientauthentication.auth_path</code> configuration, which defaults to <code>/auth</code>.
-You will need to pipe the <code>Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware</code>
-service to that path:</p>
-<pre class="codehilite"><code class="language-php">// In config/pipeline.php:
+&lt;section class=&quot;col-md-8 col-md-offset-2 code_401&quot;&gt;
+  &lt;h2&gt;Unauthorized&lt;/h2&gt;
 
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware;
+  &lt;p&gt;
+    You are not logged in, and therefore cannot perform this action.
+  &lt;/p&gt;
 
-$app-&gt;pipe('/auth', OAuth2CallbackMiddleware::class);</code></pre>
+  &lt;p&gt;
+    Login to continue:
+  &lt;p&gt;
 
-<p>@todo Detail how to pipe the callback middleware when using other middleware frameworks.</p>
-<h2 id="route-configuration">Route configuration</h2>
-<p>Once the above is complete, you can add
-<code>Zend\Expressive\Authentication\AuthenticationMiddleware</code> to your route-specific
-pipelines. You will also need to pipe
-<code>Zend\Expressive\Session\SessionMiddleware</code> in these pipelines as this adapter
-persists user information within the session.</p>
-<p>As an example:</p>
-<pre class="codehilite"><code class="language-php">// In config/routes.php
+  &lt;div class=&quot;btn-group-vertical&quot; role=&quot;group&quot;&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;&lt;?= $this-&gt;auth_path ?&gt;/github?redirect=&lt;?= $this-&gt;redirect ?&gt;&quot;&gt;GitHub&lt;/a&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;&lt;?= $this-&gt;auth_path ?&gt;/google?redirect=&lt;?= $this-&gt;redirect ?&gt;&quot;&gt;Google&lt;/a&gt;
+    &lt;?php if ($debug) : ?&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;&lt;?= $this-&gt;auth_path ?&gt;/debug?redirect=&lt;?= $this-&gt;redirect ?&gt;&quot;&gt;Debug&lt;/a&gt;
+    &lt;?php endif ?&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
 
-use Zend\Expressive\Authentication\AuthenticationMiddleware;
-use Zend\Expressive\Session\SessionMiddleware;
+<h2 id="mustache">Mustache</h2>
+<p>This example can be used via the 
+<a href="https://github.com/phly/phly-expressive-mustache">phly-expressive-mustache</a>
+renderer for zend-expressive-template:</p>
+<pre class="codehilite"><code class="language-mustache">{{&lt;layout::layout}}
+{{$title}}Unauthorized{{/title}}
+{{$content}}
+&lt;section class=&quot;col-md-8 col-md-offset-2 code_401&quot;&gt;
+  &lt;h2&gt;Unauthorized&lt;/h2&gt;
 
-$app-&gt;post('/api/books', [
-    SessionMiddleware::class,
-    AuthenticationMiddleware::class,
-    CreateBookHandler::class,
-]);</code></pre>
+  &lt;p&gt;
+    You are not logged in, and therefore cannot perform this action.
+  &lt;/p&gt;
 
-<blockquote>
-<h3 id="create-a-delegator-factory">Create a delegator factory</h3>
-<p>You may want to consider creating a delegator factory for registering these
-two middleware in a pipeline with any handler. As an example:</p>
-<pre class="codehilite"><code class="language-php">function (ContainerInterface $container, $serviceName, callable $callback)
-{
-    $pipeline = new MiddlewarePipe();
-    $pipeline-&gt;pipe($container-&gt;get(SessionMiddleware::class));
-    $pipeline-&gt;pipe($container-&gt;get(AuthenticationMiddleware::class));
-    $pipeline-&gt;pipe($callback());
-    return $pipeline;
-}</code></pre>
+  &lt;p&gt;
+    Login to continue:
+  &lt;p&gt;
 
-</blockquote>
+  &lt;div class=&quot;btn-group-vertical&quot; role=&quot;group&quot;&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;{{auth_path}}/github?redirect={{redirect}}&quot;&gt;GitHub&lt;/a&gt;
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;{{auth_path}}/google?redirect={{redirect}}&quot;&gt;Google&lt;/a&gt;
+    {{#debug}}
+    &lt;a class=&quot;btn btn-default&quot; href=&quot;{{auth_path}}/debug?redirect={{redirect}}&quot;&gt;Debug&lt;/a&gt;
+    {{/debug}}
+  &lt;/div&gt;
+&lt;/section&gt;
+{{/content}}
+{{/layout::layout}}</code></pre>
 
 <hr />
 
-
-<nav>
-  <ul class="pager hidden-print">
-    <li class="previous">
-      <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
-    </li>
-    <li class="next">
-      <a rel="next" href="../debug/">Next <i class="fa fa-arrow-right"></i></a>
-    </li>
-  </ul>
-</nav>
 </div>
         
     </div>

@@ -18,19 +18,25 @@
     
 
     
+        
     <url>
      <loc>/config/</loc>
      <lastmod>2017-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
+        
     <url>
      <loc>/debug/</loc>
      <lastmod>2017-11-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
+        
+    <url>
+     <loc>/templates/</loc>
+     <lastmod>2017-11-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
 </urlset>
