@@ -12,25 +12,25 @@ use Zend\Expressive\Authentication\UserInterface;
 class OAuth2User implements UserInterface
 {
     /** @var string */
-    private $username;
+    private $identity;
 
     /** @var array */
     private $userData;
 
-    public function __construct(string $username, array $userData)
+    public function __construct(string $identity, array $userData)
     {
-        $this->username = $username;
+        $this->identity = $identity;
         $this->userData = $userData;
     }
 
-    public function getUsername() : string
+    public function getIdentity() : string
     {
-        return $this->username;
+        return $this->identity;
     }
 
-    public function getUserRole() : string
+    public function getUserRoles() : array
     {
-        return $this->userData['role'] ?? '';
+        return $this->userData['roles'] ?? [];
     }
 
     public function getUserData() : array

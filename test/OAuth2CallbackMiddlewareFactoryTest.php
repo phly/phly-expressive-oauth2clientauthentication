@@ -7,35 +7,54 @@
 
 namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
 
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
 use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use ReflectionProperty;
 use Zend\Expressive\Application;
-use Zend\Expressive\Authentication\AuthenticationMiddleware;
+use Zend\Expressive\MiddlewareContainer;
+use Zend\Expressive\MiddlewareFactory;
+use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
 use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Session\SessionMiddleware;
+use Zend\HttpHandlerRunner\RequestHandlerRunner;
+use Zend\Stratigility\MiddlewarePipe;
 
 class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 {
+    /** @var ContainerInterface|ObjectProphecy */
+    private $container;
+
+    /** @var MiddlewarePipe */
+    private $pipeline;
+
+    /** @var OAuth2CallbackMiddlewareFactory */
+    private $factory;
+
     public function setUp()
     {
-        $this->router = $this->prophesize(RouterInterface::class);
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->container->get(RouterInterface::class)->will([$this->router, 'reveal']);
-        $this->container->has(SessionMiddleware::class)->willReturn(true);
-        $this->container->has(AuthenticationMiddleware::class)->willReturn(true);
+
+        $runner = $this->prophesize(RequestHandlerRunner::class);
+        $router = $this->prophesize(RouterInterface::class);
+        $routeMiddleware = new PathBasedRoutingMiddleware($router->reveal());
+
+        $this->pipeline = new MiddlewarePipe();
+
+        $middlewareFactory = new MiddlewareFactory(new MiddlewareContainer($this->container->reveal()));
+        $this->container->get(MiddlewareFactory::class)->willReturn($middlewareFactory);
+        $this->container->get(\Zend\Expressive\ApplicationPipeline::class)->willReturn($this->pipeline);
+        $this->container->get(PathBasedRoutingMiddleware::class)->willReturn($routeMiddleware);
+        $this->container->get(RequestHandlerRunner::class)->will([$runner, 'reveal']);
 
         $this->factory = new OAuth2CallbackMiddlewareFactory();
     }
 
     public function assertContainsExpectedRoute(string $path, Application $pipeline)
     {
-        $r = new ReflectionProperty($pipeline, 'routes');
-        $r->setAccessible(true);
-        $routes = $r->getValue($pipeline);
+        $routes = $pipeline->getRoutes();
 
         $found = false;
         foreach ($routes as $route) {
@@ -49,11 +68,11 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->assertTrue($found, sprintf('Route with path "%s" not found in pipeline', $path));
     }
 
-    public function assertPipelineContainsExpectedCountOfMiddleware(Application $application)
+    public function assertPipelineContainsExpectedCountOfMiddleware()
     {
-        $r = new ReflectionProperty($application, 'pipeline');
+        $r = new ReflectionProperty($this->pipeline, 'pipeline');
         $r->setAccessible(true);
-        $pipeline = $r->getValue($application);
+        $pipeline = $r->getValue($this->pipeline);
 
         // Should contain session, routing, and dispatch middleware
         $this->assertCount(3, $pipeline, 'Pipeline does not contain expected count of middleware');
@@ -70,7 +89,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->assertInstanceOf(Application::class, $middleware);
 
         $this->assertContainsExpectedRoute(OAuth2CallbackMiddlewareFactory::ROUTE_PROD, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
+        $this->assertPipelineContainsExpectedCountOfMiddleware();
     }
 
     public function testServiceFactoryProducesPipelineWithNoDebugFlagInConfig()
@@ -84,7 +103,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->assertInstanceOf(Application::class, $middleware);
 
         $this->assertContainsExpectedRoute(OAuth2CallbackMiddlewareFactory::ROUTE_PROD, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
+        $this->assertPipelineContainsExpectedCountOfMiddleware();
     }
 
     public function testServiceFactoryProducesPipelineWithDebugCallbackRouteWhenDebugFlagEnabled()
@@ -100,7 +119,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 
         $this->assertContainsExpectedRoute(OAuth2CallbackMiddlewareFactory::ROUTE_DEBUG, $middleware);
         $this->assertContainsExpectedRoute('/debug/authorize', $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
+        $this->assertPipelineContainsExpectedCountOfMiddleware();
     }
 
     public function testServiceFactoryCanUseProductionRouteProvidedViaConfiguration()
@@ -121,7 +140,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->assertInstanceOf(Application::class, $middleware);
 
         $this->assertContainsExpectedRoute($productionRoute, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
+        $this->assertPipelineContainsExpectedCountOfMiddleware();
     }
 
     public function testServiceFactoryCanUseDebugRouteProvidedViaConfiguration()
@@ -145,7 +164,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 
         $this->assertContainsExpectedRoute($debugRoute, $middleware);
         $this->assertContainsExpectedRoute('/debug/authorize', $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
+        $this->assertPipelineContainsExpectedCountOfMiddleware();
     }
 
     public function testServiceFactoryCanUseDebugAuthorizationRouteProvidedViaConfiguration()
@@ -173,6 +192,6 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 
         $this->assertContainsExpectedRoute($debugRoute, $middleware);
         $this->assertContainsExpectedRoute($debugAuthorizeRoute, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
+        $this->assertPipelineContainsExpectedCountOfMiddleware();
     }
 }

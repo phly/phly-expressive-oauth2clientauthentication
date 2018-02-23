@@ -7,10 +7,13 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication;
 
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\AppFactory;
 use Zend\Expressive\Authentication\AuthenticationMiddleware;
+use Zend\Expressive\Container\ApplicationFactory;
+use Zend\Expressive\Router\Middleware\DispatchMiddleware;
+use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Session\SessionMiddleware;
 
@@ -60,14 +63,14 @@ use Zend\Expressive\Session\SessionMiddleware;
  */
 class OAuth2CallbackMiddlewareFactory
 {
-    const ROUTE_DEBUG = '/{provider:debug|facebook|github|google|instagram|linkedin}[/oauth2callback]';
-    const ROUTE_DEBUG_AUTHORIZE = '/debug/authorize';
-    const ROUTE_PROD = '/{provider:facebook|github|google|instagram|linkedin}[/oauth2callback]';
+    public const ROUTE_DEBUG = '/{provider:debug|facebook|github|google|instagram|linkedin}[/oauth2callback]';
+    public const ROUTE_DEBUG_AUTHORIZE = '/debug/authorize';
+    public const ROUTE_PROD = '/{provider:facebook|github|google|instagram|linkedin}[/oauth2callback]';
 
     public function __invoke(ContainerInterface $container) : MiddlewareInterface
     {
         /** @var \Zend\Expressive\Application $pipeline */
-        $pipeline = AppFactory::create($container, $container->get(RouterInterface::class));
+        $pipeline = (new ApplicationFactory())($container);
 
         $config = $container->has('config') ? $container->get('config') : [];
         $debug  = $config['debug'] ?? false;
@@ -83,8 +86,8 @@ class OAuth2CallbackMiddlewareFactory
             $pipeline->get($path, Debug\DebugProviderMiddleware::class);
         }
 
-        $pipeline->pipeRoutingMiddleware();
-        $pipeline->pipeDispatchMiddleware();
+        $pipeline->pipe(PathBasedRoutingMiddleware::class);
+        $pipeline->pipe(DispatchMiddleware::class);
 
         return $pipeline;
     }

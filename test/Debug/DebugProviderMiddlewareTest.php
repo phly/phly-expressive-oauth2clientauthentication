@@ -7,19 +7,19 @@
 
 namespace PhlyTest\Expressive\OAuth2ClientAuthentication\Debug;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class DebugProviderMiddlewareTest extends TestCase
 {
     public function testUsesDefaultValuesToProduceRedirectResponse()
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $delegate = $this->prophesize(DelegateInterface::class)->reveal();
+        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
         $response = $this->prophesize(ResponseInterface::class)->reveal();
 
         $expected = sprintf(
@@ -36,7 +36,7 @@ class DebugProviderMiddlewareTest extends TestCase
         $middleware = new DebugProviderMiddleware($redirectResponseFactory);
         $this->assertSame(
             $response,
-            $middleware->process($request, $delegate)
+            $middleware->process($request, $handler)
         );
     }
 
@@ -44,7 +44,7 @@ class DebugProviderMiddlewareTest extends TestCase
     {
         $pathTemplate = '/oauth2/debug/callback?code=%s&state=%s';
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $delegate = $this->prophesize(DelegateInterface::class)->reveal();
+        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
         $response = $this->prophesize(ResponseInterface::class)->reveal();
 
         $expected = sprintf(
@@ -61,7 +61,7 @@ class DebugProviderMiddlewareTest extends TestCase
         $middleware = new DebugProviderMiddleware($redirectResponseFactory, $pathTemplate);
         $this->assertSame(
             $response,
-            $middleware->process($request, $delegate)
+            $middleware->process($request, $handler)
         );
     }
 }

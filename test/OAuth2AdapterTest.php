@@ -63,7 +63,7 @@ class OAuth2AdapterTest extends TestCase
         $result = $adapter->authenticate($request->reveal());
 
         $this->assertInstanceOf(OAuth2User::class, $result);
-        $this->assertEquals('foobar', $result->getUsername());
+        $this->assertEquals('foobar', $result->getIdentity());
         $this->assertArrayHasKey('other', $result->getUserData());
     }
 

@@ -7,14 +7,14 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication\Debug;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class DebugProviderMiddleware implements MiddlewareInterface
 {
-    const DEFAULT_PATH_TEMPLATE = '/auth/debug/oauth2callback?code=%s&state=%s';
+    public const DEFAULT_PATH_TEMPLATE = '/auth/debug/oauth2callback?code=%s&state=%s';
 
     /**
      * @var string
@@ -32,7 +32,7 @@ class DebugProviderMiddleware implements MiddlewareInterface
         $this->pathTemplate = $pathTemplate;
     }
 
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
         $uri = sprintf($this->pathTemplate, DebugProvider::CODE, DebugProvider::STATE);
         return ($this->redirectResponseFactory)($uri);

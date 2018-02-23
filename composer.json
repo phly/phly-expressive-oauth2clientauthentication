@@ -17,20 +17,19 @@
     },
     "require": {
         "php": "^7.1",
-        "http-interop/http-middleware": "^0.4.1",
         "league/oauth2-client": "^2.2",
-        "zendframework/zend-expressive": "^2.0",
-        "zendframework/zend-expressive-authentication": "^0.1.0",
-        "zendframework/zend-expressive-session": "^0.1.0"
+        "zendframework/zend-expressive": "^3.0",
+        "zendframework/zend-expressive-authentication": "^1.0",
+        "zendframework/zend-expressive-session": "^1.0"
     },
     "require-dev": {
         "league/oauth2-github": "^2.0",
         "league/oauth2-google": "^2.0",
         "league/oauth2-instagram": "^2.0",
-        "phpspec/prophecy": "^1.7.2",
-        "phpunit/phpunit": "^6.3",
-        "zendframework/zend-coding-standard": "^1.0",
-        "zendframework/zend-expressive-template": "^1.0"
+        "phpspec/prophecy": "^1.7.5",
+        "phpunit/phpunit": "^7.0.1",
+        "zendframework/zend-coding-standard": "~1.0.0",
+        "zendframework/zend-expressive-template": "^2.0"
     },
     "suggest": {
         "league/oauth2-facebook": "To use the Facebook OAuth2 provider",
@@ -71,5 +70,6 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "upload-coverage": "coveralls -v"
-    }
+    },
+    "minimum-stability": "alpha"
 }
