@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "59f8542e17639c9ade66c2743e937ae1",
+    "content-hash": "2ec89bf3a77f60682960d2634120df3a",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -745,16 +745,16 @@
         },
         {
             "name": "zendframework/zend-expressive-authentication",
-            "version": "1.0.0alpha2",
+            "version": "1.0.0alpha3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-expressive-authentication.git",
-                "reference": "a32c76db6b4573a069a7305c85762c9b35b0d32b"
+                "reference": "0832c05658605ed290ad6b841180a52a81678ea7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-expressive-authentication/zipball/a32c76db6b4573a069a7305c85762c9b35b0d32b",
-                "reference": "a32c76db6b4573a069a7305c85762c9b35b0d32b",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-authentication/zipball/0832c05658605ed290ad6b841180a52a81678ea7",
+                "reference": "0832c05658605ed290ad6b841180a52a81678ea7",
                 "shasum": ""
             },
             "require": {
@@ -769,7 +769,8 @@
             "require-dev": {
                 "phpunit/phpunit": "^6.5.5",
                 "roave/security-advisories": "dev-master",
-                "zendframework/zend-coding-standard": "~1.0.0"
+                "zendframework/zend-coding-standard": "~1.0.0",
+                "zendframework/zend-diactoros": "^1.7"
             },
             "suggest": {
                 "ext-pdo": "*: for use with the PDO-backed UserRepositoryInterface implementation",
@@ -807,7 +808,7 @@
                 "zend-expressive",
                 "zf"
             ],
-            "time": "2018-02-22T22:41:35+00:00"
+            "time": "2018-02-24T09:11:44+00:00"
         },
         {
             "name": "zendframework/zend-expressive-router",
@@ -2868,7 +2869,11 @@
     ],
     "aliases": [],
     "minimum-stability": "alpha",
-    "stability-flags": [],
+    "stability-flags": {
+        "zendframework/zend-expressive": 15,
+        "zendframework/zend-expressive-authentication": 15,
+        "zendframework/zend-expressive-session": 15
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
