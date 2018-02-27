@@ -181,7 +181,7 @@ class OAuth2Adapter implements AuthenticationInterface
 
     /**
      * @param string|\Throwable
-     * @throws Exception\OAuth2ClientAuthentication
+     * @throws Exception\OAuth2ProviderException
      */
     private function processError($error)
     {
@@ -211,7 +211,7 @@ class OAuth2Adapter implements AuthenticationInterface
     }
 
     /**
-     * @throws UnexpectedResourceOwnerTypeException if unable to determine
+     * @throws Exception\UnexpectedResourceOwnerTypeException if unable to determine
      *     username from resource owner.
      */
     private function getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string
