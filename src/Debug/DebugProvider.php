@@ -13,10 +13,10 @@ use Psr\Http\Message\ResponseInterface;
 
 class DebugProvider extends AbstractProvider
 {
-    const AUTHORIZATION_URL = '/auth/debug/authorize';
-    const CODE = 'CODE';
-    const STATE = 'DEBUG';
-    const TOKEN = 'TOKEN';
+    public const AUTHORIZATION_URL = '/auth/debug/authorize';
+    public const CODE = 'CODE';
+    public const STATE = 'DEBUG';
+    public const TOKEN = 'TOKEN';
 
     /**
      * @var string

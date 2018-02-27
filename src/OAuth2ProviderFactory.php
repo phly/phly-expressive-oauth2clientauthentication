@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
 
 class OAuth2ProviderFactory
 {
-    const PROVIDER_MAP = [
+    public const PROVIDER_MAP = [
         'debug'  => Debug\DebugProvider::class,
         'facebook' => Provider\Facebook::class,
         'github' => Provider\Github::class,

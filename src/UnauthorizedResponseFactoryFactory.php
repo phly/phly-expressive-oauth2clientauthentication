@@ -32,8 +32,8 @@ use Zend\Expressive\Template\TemplateRendererInterface;
  */
 class UnauthorizedResponseFactoryFactory
 {
-    const DEFAULT_AUTH_PATH = '/auth';
-    const DEFAULT_TEMPLATE = 'oauth2clientauthentication::401';
+    public const DEFAULT_AUTH_PATH = '/auth';
+    public const DEFAULT_TEMPLATE = 'oauth2clientauthentication::401';
 
     public function __invoke(ContainerInterface $container) : callable
     {

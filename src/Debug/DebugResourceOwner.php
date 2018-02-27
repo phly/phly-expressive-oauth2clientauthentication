@@ -11,7 +11,7 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 class DebugResourceOwner implements ResourceOwnerInterface
 {
-    const USER_ID = 'USER';
+    public const USER_ID = 'USER';
 
     /**
      * @return string

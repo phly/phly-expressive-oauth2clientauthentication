@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class RedirectResponseFactoryFactory
 {
-    const TEMPLATE = 'oauth2authentication::401';
+    public const TEMPLATE = 'oauth2authentication::401';
 
     public function __invoke(ContainerInterface $container) : callable
     {
