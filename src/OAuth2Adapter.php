@@ -22,11 +22,6 @@ class OAuth2Adapter implements AuthenticationInterface
     private $redirectResponseFactory;
     private $unauthorizedResponseFactory;
 
-    /**
-     * Constructor
-     *
-     * @param array $config Configuration for the Opauth instance
-     */
     public function __construct(
         OAuth2ProviderFactory $providerFactory,
         callable $unauthorizedResponseFactory,
@@ -47,9 +42,6 @@ class OAuth2Adapter implements AuthenticationInterface
      *
      * On subsequent requests, this method will return the authenticated
      * user as retrieved from the session.
-     *
-     * @param ServerRequestInterface $request
-     * @return UserInterface|null
      */
     public function authenticate(ServerRequestInterface $request) : ?UserInterface
     {
@@ -133,9 +125,6 @@ class OAuth2Adapter implements AuthenticationInterface
      * - if we've received a valid authorization from the provider
      *
      * Otherwise, we display the login page.
-     *
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
      */
     public function unauthorizedResponse(ServerRequestInterface $request) : ResponseInterface
     {

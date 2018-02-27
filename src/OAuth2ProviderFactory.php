@@ -31,6 +31,10 @@ class OAuth2ProviderFactory
         $this->container = $container;
     }
 
+    /**
+     * @throws Exception\UnsupportedProviderException
+     * @throws Exception\MissingProviderConfigException
+     */
     public function createProvider(string $name) : Provider\AbstractProvider
     {
         $knownProviders = array_keys(self::PROVIDER_MAP);
