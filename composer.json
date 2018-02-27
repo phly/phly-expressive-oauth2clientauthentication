@@ -18,16 +18,15 @@
     "require": {
         "php": "^7.1",
         "league/oauth2-client": "^2.2",
-        "zendframework/zend-expressive": "^3.0 >=3.0.0alpha9",
-        "zendframework/zend-expressive-authentication": "^1.0 >=1.0.0alpha3",
-        "zendframework/zend-expressive-session": "^1.0 >=1.0.0alpha1"
+        "zendframework/zend-expressive": "^3.0.0alpha9",
+        "zendframework/zend-expressive-authentication": "^1.0.0alpha3",
+        "zendframework/zend-expressive-session": "^1.0.0alpha1"
     },
     "require-dev": {
         "league/oauth2-github": "^2.0",
         "league/oauth2-google": "^2.0",
         "league/oauth2-instagram": "^2.0",
-        "phpspec/prophecy": "^1.7.5",
-        "phpunit/phpunit": "^7.0.1",
+        "phpunit/phpunit": "^7.0.2",
         "zendframework/zend-coding-standard": "~1.0.0",
         "zendframework/zend-expressive-template": "^2.0"
     },
