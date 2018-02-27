@@ -8,7 +8,7 @@
 namespace Phly\Expressive\OAuth2ClientAuthentication;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ResponseInterface;
 
 class RedirectResponseFactoryFactory
 {
@@ -16,8 +16,9 @@ class RedirectResponseFactoryFactory
 
     public function __invoke(ContainerInterface $container) : callable
     {
-        return function (string $url) use ($container) : Response {
-            $response = $container->get(Response::class);
+        return function (string $url) use ($container) : ResponseInterface {
+            $response = $container->get(ResponseInterface::class)();
+
             return $response
                 ->withHeader('Location', $url)
                 ->withStatus(302);

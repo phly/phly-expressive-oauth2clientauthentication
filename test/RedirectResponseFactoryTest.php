@@ -31,7 +31,9 @@ class RedirectResponseFactoryTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response->withHeader('Location', '/some/url')->will([$response, 'reveal']);
         $response->withStatus(302)->will([$response, 'reveal']);
-        $this->container->get(ResponseInterface::class)->will([$response, 'reveal']);
+        $this->container->get(ResponseInterface::class)->willReturn(function () use ($response) {
+            return $response->reveal();
+        });
 
         $factory = ($this->factory)($this->container->reveal());
         $result = $factory('/some/url');

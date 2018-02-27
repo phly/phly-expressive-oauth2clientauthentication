@@ -8,7 +8,7 @@
 namespace Phly\Expressive\OAuth2ClientAuthentication;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
@@ -37,7 +37,7 @@ class UnauthorizedResponseFactoryFactory
 
     public function __invoke(ContainerInterface $container) : callable
     {
-        return function (Request $request) use ($container) : Response {
+        return function (Request $request) use ($container) : ResponseInterface {
             $originalRequest = $request->getAttribute('originalRequest', $request);
 
             $config = $container->has('config') ? $container->get('config') : [];
@@ -50,7 +50,7 @@ class UnauthorizedResponseFactoryFactory
                 'debug'     => (bool) $debug,
             ];
 
-            $response = $container->get(Response::class);
+            $response = $container->get(ResponseInterface::class)();
             $renderer = $container->get(TemplateRendererInterface::class);
 
             $response->getBody()->write(

@@ -93,7 +93,9 @@ class UnauthorizedResponseFactoryTest extends TestCase
             $this->container->get('config')->willReturn($config)->shouldBeCalled();
         }
 
-        $this->container->get(ResponseInterface::class)->will([$response, 'reveal']);
+        $this->container->get(ResponseInterface::class)->willReturn(function () use ($response) {
+            return $response->reveal();
+        });
         $this->container->get(TemplateRendererInterface::class)->will([$renderer, 'reveal']);
 
         $factory = ($this->factory)($this->container->reveal());
