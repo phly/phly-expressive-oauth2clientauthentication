@@ -7,14 +7,12 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication;
 
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\AppFactory;
+use Psr\Http\Server\MiddlewareInterface;
 use Zend\Expressive\Authentication\AuthenticationMiddleware;
 use Zend\Expressive\Container\ApplicationFactory;
 use Zend\Expressive\Router\Middleware\DispatchMiddleware;
 use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
-use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Session\SessionMiddleware;
 
 /**

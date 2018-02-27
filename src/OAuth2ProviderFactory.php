@@ -7,9 +7,8 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication;
 
-use Psr\Container\ContainerInterface;
 use League\OAuth2\Client\Provider;
-use RuntimeException;
+use Psr\Container\ContainerInterface;
 
 class OAuth2ProviderFactory
 {

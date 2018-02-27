@@ -7,8 +7,8 @@
 
 namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
 
-use PHPUnit\Framework\TestCase;
 use Phly\Expressive\OAuth2ClientAuthentication\ConfigProvider;
+use PHPUnit\Framework\TestCase;
 
 class ConfigProviderTest extends TestCase
 {

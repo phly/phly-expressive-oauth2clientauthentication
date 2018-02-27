@@ -7,12 +7,12 @@
 
 namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
 
+use League\OAuth2\Client\Provider;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
 use Phly\Expressive\OAuth2ClientAuthentication\Exception;
 use Phly\Expressive\OAuth2ClientAuthentication\OAuth2ProviderFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use League\OAuth2\Client\Provider;
 
 class OAuth2ProviderFactoryTest extends TestCase
 {

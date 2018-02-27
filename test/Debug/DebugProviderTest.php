@@ -12,7 +12,6 @@ use League\OAuth2\Client\Token\AccessToken;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 
 class DebugProviderTest extends TestCase
 {

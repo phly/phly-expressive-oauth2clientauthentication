@@ -7,10 +7,10 @@
 
 namespace Phly\Expressive\OAuth2ClientAuthentication\Debug;
 
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class DebugProviderMiddleware implements MiddlewareInterface
 {
