@@ -10,6 +10,7 @@ namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
 use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
 use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -17,7 +18,9 @@ use ReflectionProperty;
 use Zend\Expressive\Application;
 use Zend\Expressive\MiddlewareContainer;
 use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
+use Zend\Expressive\Router\Middleware\RouteMiddleware;
+use Zend\Expressive\Router\Route;
+use Zend\Expressive\Router\RouteCollector;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\HttpHandlerRunner\RequestHandlerRunner;
 use Zend\Stratigility\MiddlewarePipe;
@@ -39,14 +42,19 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 
         $runner = $this->prophesize(RequestHandlerRunner::class);
         $router = $this->prophesize(RouterInterface::class);
-        $routeMiddleware = new PathBasedRoutingMiddleware($router->reveal());
+        $router->addRoute(Argument::type(Route::class))->shouldBeCalled();
+
+        $routeMiddleware = new RouteMiddleware($router->reveal());
+
+        $routes = new RouteCollector($router->reveal());
 
         $this->pipeline = new MiddlewarePipe();
 
         $middlewareFactory = new MiddlewareFactory(new MiddlewareContainer($this->container->reveal()));
         $this->container->get(MiddlewareFactory::class)->willReturn($middlewareFactory);
         $this->container->get(\Zend\Expressive\ApplicationPipeline::class)->willReturn($this->pipeline);
-        $this->container->get(PathBasedRoutingMiddleware::class)->willReturn($routeMiddleware);
+        $this->container->get(RouteCollector::class)->willReturn($routes);
+        $this->container->get(RouteMiddleware::class)->willReturn($routeMiddleware);
         $this->container->get(RequestHandlerRunner::class)->will([$runner, 'reveal']);
 
         $this->factory = new OAuth2CallbackMiddlewareFactory();

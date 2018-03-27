@@ -12,7 +12,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Zend\Expressive\Authentication\AuthenticationMiddleware;
 use Zend\Expressive\Container\ApplicationFactory;
 use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
+use Zend\Expressive\Router\Middleware\RouteMiddleware;
 use Zend\Expressive\Session\SessionMiddleware;
 
 /**
@@ -84,7 +84,7 @@ class OAuth2CallbackMiddlewareFactory
             $pipeline->get($path, Debug\DebugProviderMiddleware::class);
         }
 
-        $pipeline->pipe(PathBasedRoutingMiddleware::class);
+        $pipeline->pipe(RouteMiddleware::class);
         $pipeline->pipe(DispatchMiddleware::class);
 
         return $pipeline;
