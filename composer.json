@@ -18,9 +18,9 @@
     "require": {
         "php": "^7.1",
         "league/oauth2-client": "^2.2",
-        "zendframework/zend-expressive": "^3.0.0alpha9",
-        "zendframework/zend-expressive-authentication": "^1.0.0alpha3",
-        "zendframework/zend-expressive-session": "^1.0.0alpha1"
+        "zendframework/zend-expressive": "^3.0",
+        "zendframework/zend-expressive-authentication": "^0.4",
+        "zendframework/zend-expressive-session": "^1.0"
     },
     "require-dev": {
         "league/oauth2-github": "^2.0",
@@ -68,6 +68,5 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
-    },
-    "minimum-stability": "alpha"
+    }
 }
