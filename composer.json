@@ -28,6 +28,7 @@
         "league/oauth2-instagram": "^2.0",
         "phpunit/phpunit": "^7.0.2",
         "zendframework/zend-coding-standard": "~1.0.0",
+        "zendframework/zend-expressive-fastroute": "^3.0",
         "zendframework/zend-expressive-template": "^2.0"
     },
     "suggest": {

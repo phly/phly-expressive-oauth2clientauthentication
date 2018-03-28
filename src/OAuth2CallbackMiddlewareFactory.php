@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Zend\Expressive\Authentication\AuthenticationMiddleware;
 use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\RouteCollector;
+use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Router\Middleware\DispatchMiddleware;
 use Zend\Expressive\Router\Middleware\RouteMiddleware;
@@ -72,7 +72,6 @@ class OAuth2CallbackMiddlewareFactory
     {
         $factory = $container->get(MiddlewareFactory::class);
         $router = $this->getRouter($container);
-        $routing = new RouteCollector($router);
 
         $pipeline = new MiddlewarePipe();
 
@@ -83,11 +82,19 @@ class OAuth2CallbackMiddlewareFactory
 
         // OAuth2 providers rely on session to persist the user details
         $pipeline->pipe($factory->lazy(SessionMiddleware::class));
-        $routing->get($route, $factory->lazy(AuthenticationMiddleware::class));
+        $router->addRoute(new Route(
+            $route,
+            $factory->lazy(AuthenticationMiddleware::class),
+            ['GET']
+        ));
 
         if ($debug) {
             $path = $config['oauth2clientauthentication']['debug']['authorization_url'] ?? self::ROUTE_DEBUG_AUTHORIZE;
-            $routing->get($path, $factory->lazy(Debug\DebugProviderMiddleware::class));
+            $router->addRoute(new Route(
+                $path,
+                $factory->lazy(Debug\DebugProviderMiddleware::class),
+                ['GET']
+            ));
         }
 
         $pipeline->pipe(new RouteMiddleware($router));

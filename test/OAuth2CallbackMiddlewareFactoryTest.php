@@ -15,14 +15,13 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use ReflectionProperty;
-use Zend\Expressive\Application;
+use Zend\Expressive\Authentication\AuthenticationMiddleware;
 use Zend\Expressive\MiddlewareContainer;
 use Zend\Expressive\MiddlewareFactory;
+use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouteCollector;
 use Zend\Expressive\Router\RouterInterface;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
+use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Stratigility\MiddlewarePipe;
 
 class OAuth2CallbackMiddlewareFactoryTest extends TestCase
@@ -40,29 +39,28 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
     {
         $this->container = $this->prophesize(ContainerInterface::class);
 
-        $runner = $this->prophesize(RequestHandlerRunner::class);
-        $router = $this->prophesize(RouterInterface::class);
-        $router->addRoute(Argument::type(Route::class))->shouldBeCalled();
+        $router = new FastRouteRouter();
+        $this->container->get(RouterInterface::class)->willReturn($router);
 
-        $routeMiddleware = new RouteMiddleware($router->reveal());
+        $sessionMiddleware = $this->prophesize(SessionMiddleware::class)->reveal();
+        $this->container->get(SessionMiddleware::class)->willReturn($sessionMiddleware);
 
-        $routes = new RouteCollector($router->reveal());
+        $authMiddleware = $this->prophesize(AuthenticationMiddleware::class)->reveal();
+        $this->container->get(AuthenticationMiddleware::class)->willReturn($authMiddleware);
 
-        $this->pipeline = new MiddlewarePipe();
+        $dispatchMiddleware = $this->prophesize(DispatchMiddleware::class)->reveal();
+        $this->container->get(DispatchMiddleware::class)->willReturn($dispatchMiddleware);
 
         $middlewareFactory = new MiddlewareFactory(new MiddlewareContainer($this->container->reveal()));
         $this->container->get(MiddlewareFactory::class)->willReturn($middlewareFactory);
-        $this->container->get(\Zend\Expressive\ApplicationPipeline::class)->willReturn($this->pipeline);
-        $this->container->get(RouteCollector::class)->willReturn($routes);
-        $this->container->get(RouteMiddleware::class)->willReturn($routeMiddleware);
-        $this->container->get(RequestHandlerRunner::class)->will([$runner, 'reveal']);
 
         $this->factory = new OAuth2CallbackMiddlewareFactory();
     }
 
-    public function assertContainsExpectedRoute(string $path, Application $pipeline)
+    public function assertContainsExpectedRoute(string $path, MiddlewarePipe $pipeline)
     {
-        $routes = $pipeline->getRoutes();
+        $routeMiddleware = $this->getRouteMiddlewareFromPipeline($pipeline);
+        $routes = $this->getRoutesFromRouteMiddleware($routeMiddleware);
 
         $found = false;
         foreach ($routes as $route) {
@@ -76,14 +74,39 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->assertTrue($found, sprintf('Route with path "%s" not found in pipeline', $path));
     }
 
-    public function assertPipelineContainsExpectedCountOfMiddleware()
+    public function assertPipelineContainsExpectedCountOfMiddleware(MiddlewarePipe $pipeline)
     {
-        $r = new ReflectionProperty($this->pipeline, 'pipeline');
+        $r = new ReflectionProperty($pipeline, 'pipeline');
         $r->setAccessible(true);
-        $pipeline = $r->getValue($this->pipeline);
+        $pipeline = $r->getValue($pipeline);
 
         // Should contain session, routing, and dispatch middleware
         $this->assertCount(3, $pipeline, 'Pipeline does not contain expected count of middleware');
+    }
+
+    private function getRouteMiddlewareFromPipeline(MiddlewarePipe $pipeline) : MiddlewareInterface
+    {
+        $r = new ReflectionProperty($pipeline, 'pipeline');
+        $r->setAccessible(true);
+
+        foreach ($r->getValue($pipeline) as $middleware) {
+            if ($middleware instanceof RouteMiddleware) {
+                return $middleware;
+            }
+        }
+
+        $this->fail('Could not locate route middleware in pipeline!');
+    }
+
+    private function getRoutesFromRouteMiddleware(RouteMiddleware $middleware) : array
+    {
+        $r = new ReflectionProperty($middleware, 'router');
+        $r->setAccessible(true);
+        $router = $r->getValue($middleware);
+
+        $r = new ReflectionProperty($router, 'routesToInject');
+        $r->setAccessible(true);
+        return $r->getValue($router);
     }
 
     public function testServiceFactoryProducesPipelineWithNoConfigPresent()
@@ -94,10 +117,10 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $middleware = ($this->factory)($this->container->reveal());
 
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-        $this->assertInstanceOf(Application::class, $middleware);
+        $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
 
         $this->assertContainsExpectedRoute(OAuth2CallbackMiddlewareFactory::ROUTE_PROD, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware();
+        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
     }
 
     public function testServiceFactoryProducesPipelineWithNoDebugFlagInConfig()
@@ -108,10 +131,10 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $middleware = ($this->factory)($this->container->reveal());
 
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-        $this->assertInstanceOf(Application::class, $middleware);
+        $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
 
         $this->assertContainsExpectedRoute(OAuth2CallbackMiddlewareFactory::ROUTE_PROD, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware();
+        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
     }
 
     public function testServiceFactoryProducesPipelineWithDebugCallbackRouteWhenDebugFlagEnabled()
@@ -123,11 +146,11 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $middleware = ($this->factory)($this->container->reveal());
 
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-        $this->assertInstanceOf(Application::class, $middleware);
+        $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
 
         $this->assertContainsExpectedRoute(OAuth2CallbackMiddlewareFactory::ROUTE_DEBUG, $middleware);
         $this->assertContainsExpectedRoute('/debug/authorize', $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware();
+        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
     }
 
     public function testServiceFactoryCanUseProductionRouteProvidedViaConfiguration()
@@ -145,10 +168,10 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $middleware = ($this->factory)($this->container->reveal());
 
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-        $this->assertInstanceOf(Application::class, $middleware);
+        $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
 
         $this->assertContainsExpectedRoute($productionRoute, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware();
+        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
     }
 
     public function testServiceFactoryCanUseDebugRouteProvidedViaConfiguration()
@@ -168,11 +191,11 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $middleware = ($this->factory)($this->container->reveal());
 
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-        $this->assertInstanceOf(Application::class, $middleware);
+        $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
 
         $this->assertContainsExpectedRoute($debugRoute, $middleware);
         $this->assertContainsExpectedRoute('/debug/authorize', $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware();
+        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
     }
 
     public function testServiceFactoryCanUseDebugAuthorizationRouteProvidedViaConfiguration()
@@ -196,10 +219,10 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $middleware = ($this->factory)($this->container->reveal());
 
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-        $this->assertInstanceOf(Application::class, $middleware);
+        $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
 
         $this->assertContainsExpectedRoute($debugRoute, $middleware);
         $this->assertContainsExpectedRoute($debugAuthorizeRoute, $middleware);
-        $this->assertPipelineContainsExpectedCountOfMiddleware();
+        $this->assertPipelineContainsExpectedCountOfMiddleware($middleware);
     }
 }
