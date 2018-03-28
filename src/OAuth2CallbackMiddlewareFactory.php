@@ -10,10 +10,13 @@ namespace Phly\Expressive\OAuth2ClientAuthentication;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Zend\Expressive\Authentication\AuthenticationMiddleware;
-use Zend\Expressive\Container\ApplicationFactory;
+use Zend\Expressive\MiddlewareFactory;
+use Zend\Expressive\Router\RouteCollector;
+use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Router\Middleware\DispatchMiddleware;
 use Zend\Expressive\Router\Middleware\RouteMiddleware;
 use Zend\Expressive\Session\SessionMiddleware;
+use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * Factory for providing the OAuth2 provider callback endpoints within your application.
@@ -67,8 +70,11 @@ class OAuth2CallbackMiddlewareFactory
 
     public function __invoke(ContainerInterface $container) : MiddlewareInterface
     {
-        /** @var \Zend\Expressive\Application $pipeline */
-        $pipeline = (new ApplicationFactory())($container);
+        $factory = $container->get(MiddlewareFactory::class);
+        $router = $this->getRouter($container);
+        $routing = new RouteCollector($router);
+
+        $pipeline = new MiddlewarePipe();
 
         $config = $container->has('config') ? $container->get('config') : [];
         $debug  = $config['debug'] ?? false;
@@ -76,16 +82,16 @@ class OAuth2CallbackMiddlewareFactory
         $route  = $this->getRouteFromConfig($routes, (bool) $debug);
 
         // OAuth2 providers rely on session to persist the user details
-        $pipeline->pipe(SessionMiddleware::class);
-        $pipeline->get($route, AuthenticationMiddleware::class);
+        $pipeline->pipe($factory->lazy(SessionMiddleware::class));
+        $routing->get($route, $factory->lazy(AuthenticationMiddleware::class));
 
         if ($debug) {
             $path = $config['oauth2clientauthentication']['debug']['authorization_url'] ?? self::ROUTE_DEBUG_AUTHORIZE;
-            $pipeline->get($path, Debug\DebugProviderMiddleware::class);
+            $routing->get($path, $factory->lazy(Debug\DebugProviderMiddleware::class));
         }
 
-        $pipeline->pipe(RouteMiddleware::class);
-        $pipeline->pipe(DispatchMiddleware::class);
+        $pipeline->pipe(new RouteMiddleware($router));
+        $pipeline->pipe($factory->lazy(DispatchMiddleware::class));
 
         return $pipeline;
     }
@@ -97,5 +103,12 @@ class OAuth2CallbackMiddlewareFactory
         }
 
         return $routes['production'] ?? self::ROUTE_PROD;
+    }
+
+    private function getRouter(ContainerInterface $container) : RouterInterface
+    {
+        $router = $container->get(RouterInterface::class);
+        $class = get_class($router);
+        return new $class();
     }
 }
