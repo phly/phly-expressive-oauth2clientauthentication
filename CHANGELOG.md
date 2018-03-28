@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.2.1 - 2018-03-28
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Fixes how the callback factory produces a pipeline. Instead of using an
+  `Application` instance derived from the `ApplicationFactory` (which will
+  receive a shared route collector and shared middleware), it now produces a
+  `MiddlewarePipe` instance into which it pipes the various middleware. It also
+  creates a _new_ router, based on the type returned from the container (it
+  assumes no constructor arguments are necessary), and passes that to a new
+  `RouteMiddleware` instance to ensure it is sandboxed from the main
+  application.
+
 ## 0.2.0 - 2018-03-27
 
 ### Added
