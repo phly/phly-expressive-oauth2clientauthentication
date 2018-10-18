@@ -28,12 +28,17 @@ class OAuth2User implements UserInterface
         return $this->identity;
     }
 
-    public function getUserRoles() : array
+    public function getRoles() : iterable
     {
         return $this->userData['roles'] ?? [];
     }
 
-    public function getUserData() : array
+    public function getDetail(string $name, $default = null)
+    {
+        return $this->userData[$name] ?? $default;
+    }
+
+    public function getDetails() : array
     {
         return $this->userData;
     }

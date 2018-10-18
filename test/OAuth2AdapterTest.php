@@ -62,7 +62,7 @@ class OAuth2AdapterTest extends TestCase
 
         $this->assertInstanceOf(OAuth2User::class, $result);
         $this->assertEquals('foobar', $result->getIdentity());
-        $this->assertArrayHasKey('other', $result->getUserData());
+        $this->assertArrayHasKey('other', $result->getDetails());
     }
 
     public function testErrorsProvidedByOAuth2ProviderAreRaisedAsAnException()
