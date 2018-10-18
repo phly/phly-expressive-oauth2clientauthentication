@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0 - TBD
+
+### Added
+
+- Adds the method `OAuth2User::getDetail(string $name, $default = null)` in
+  order to fulfill the zend-expressive-authentication 1.0.0 API for the
+  `UserInterface`.
+
+### Changed
+
+- The method `OAuth2User::getUserRoles() : array` was refactored to
+  `OAuth2User::getRoles() : iterable` in order to match the
+  zend-expressive-authentication 1.0.0 API.
+
+- The method `OAuth2User::getUserData() : array` was refactored to
+  `OAuth2User::getDetails() : array` in order to match the
+  zend-expressive-authentication 1.0.0 API.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.2.1 - 2018-03-28
 
 ### Added
