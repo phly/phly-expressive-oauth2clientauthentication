@@ -24,6 +24,37 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
+## X.X.X - 2019-05-26
+
+### Added
+
+- Adds the method `forProviderKey(string $provider)` in order to assert 
+that the provider key has been set for providers in the configuration.
+
+### Changed
+
+- Changes array disposition in the configuration files to include provider 
+and options keys (BC break). The provider array key tells the factory what 
+to instantiate and the options is passed to the Provider constructor.
+ 
+- Removes the check for `$knownProviders` in the method 
+`createProvider(string $name)`.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Removes `UnsupportedProviderException` as it is not used anymore.
+
+- Removes the test method `testFactoryRaisesExceptionForUnknownProviderTypes()`
+as it's no longer needed.
+
+### Fixed
+
+- Nampespace in config files. 
+
 ## 1.0.0 - 2018-10-18
 
 ### Added

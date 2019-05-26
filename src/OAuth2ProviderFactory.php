@@ -23,6 +23,7 @@ class OAuth2ProviderFactory
     }
 
     /**
+     * @throws Exception\MissingProviderConfigException
      * @param string $name
      * @return Provider\AbstractProvider
      */
