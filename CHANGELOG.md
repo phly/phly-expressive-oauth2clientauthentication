@@ -28,8 +28,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Adds the method `forProviderKey(string $provider)` in order to assert 
-that the provider key has been set for providers in the configuration.
+- Adds support for all League OAuth2 Clients that inherits from the 
+upstream `League\OAuth2\Client\Provider\AbstractProvider`.
+
+- Adds the method `forProviderKey(string $provider)` in 
+`MissingProviderConfigException` in order to assert that the provider key 
+has been set for providers in the configuration.
 
 ### Changed
 
@@ -53,7 +57,7 @@ as it's no longer needed.
 
 ### Fixed
 
-- Nampespace in config files. 
+- Namespace in config files. 
 
 ## 1.0.0 - 2018-10-18
 
