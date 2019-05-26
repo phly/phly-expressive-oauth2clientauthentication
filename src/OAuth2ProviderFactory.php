@@ -12,15 +12,6 @@ use Psr\Container\ContainerInterface;
 
 class OAuth2ProviderFactory
 {
-    public const PROVIDER_MAP = [
-        'debug'  => Debug\DebugProvider::class,
-        'facebook' => Provider\Facebook::class,
-        'github' => Provider\Github::class,
-        'google' => Provider\Google::class,
-        'instagram' => Provider\Instagram::class,
-        'linkedin' => Provider\LinkedIn::class,
-    ];
-
     /**
      * @var ContainerInterface
      */
@@ -32,24 +23,23 @@ class OAuth2ProviderFactory
     }
 
     /**
-     * @throws Exception\UnsupportedProviderException
-     * @throws Exception\MissingProviderConfigException
+     * @param string $name
+     * @return Provider\AbstractProvider
      */
     public function createProvider(string $name) : Provider\AbstractProvider
     {
-        $knownProviders = array_keys(self::PROVIDER_MAP);
-        if (! in_array($name, $knownProviders, true)) {
-            throw Exception\UnsupportedProviderException::forProvider($name, $knownProviders);
-        }
-
         $config = $this->container->get('config')['oauth2clientauthentication'] ?? [];
 
         if (! isset($config[$name])) {
             throw Exception\MissingProviderConfigException::forProvider($name);
         }
 
-        $provider = self::PROVIDER_MAP[$name];
+        if (! isset($config[$name]['provider'])) {
+            throw Exception\MissingProviderConfigException::forProviderKey($name);
+        }
 
-        return new $provider($config[$name]);
+        $provider = $config[$name]['provider'];
+
+        return new $provider($config[$name]['options']);
     }
 }
