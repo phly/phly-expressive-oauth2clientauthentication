@@ -19,7 +19,7 @@ return [
         // This is the debug provider shipped within this component for purposes
         // of testing the OAuth2 client workflow within your applications.
         'debug' => [
-            // Client key must be present for factory creation.
+            // Provider key must be present for factory creation.
             'provider' => Debug\DebugProvider::class,
             'options' => [
                 // Provide this if you have provided an alternate route path via

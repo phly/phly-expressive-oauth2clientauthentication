@@ -2,14 +2,7 @@
 
 This library provides a [league/oauth2-client](http://oauth2-client.thephpleague.com)
 adapter for use with [zend-expressive-authentication](https://docs.zendframework.com/zend-expressive-authentication).
-It currently supports only the OAuth2 providers officially maintained by that
-project, including:
-
-- Facebook
-- GitHub
-- Google
-- Instagram
-- LinkedIn
+It supports all OAuth2 Clients that inherits from `League\OAuth2\Client\Provider\AbstractProvider`.
 
 ## Installation
 

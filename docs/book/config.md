@@ -26,10 +26,10 @@ return [
         // as specified above.
         'routes' => [
             // Production path.
-            // 'production' => '/{provider:facebook|github|google|instagram}|linkedin[/oauth2callback]',
+            // 'production' => '/{provider:facebook|github|google|instagram|linkedin|custom}[/oauth2callback]',
 
             // Debug path.
-            // 'debug' => '/{provider:debug|facebook|github|google|instagram|linkedin}[/oauth2callback]',
+            // 'debug' => '/{provider:debug|facebook|github|google|instagram|linkedin|custom}[/oauth2callback]',
         ],
     ],
 ];
@@ -42,6 +42,9 @@ review the [league/oauth2-client providers documentation](http://oauth2-client.t
 for links to both full configuration documentation, as well as resources on how
 to obtain the various client identifiers and secrets you will need to use.
 
+Each provider you define needs at least the provider key with the Client class name and 
+the options key with an array which is passed to the Client constructor.
+
 This information should _not_ be shipped directly in your repository, but rather
 included as part of your application environment.
 
@@ -50,55 +53,84 @@ included as part of your application environment.
 
 return [
     'oauth2clientauthentication' => [
-        // Debug
-        // This is the debug provider shipped within this component for purposes
-        // of testing the OAuth2 client workflow within your applications.
         'debug' => [
-            // Provide this if you have provided an alternate route path via
-            // the oauth2clientauthentication.routes.debug key:
-            // 'callback_uri_template' => '/alternate/debug/callback?code=%s&state=%s',
+            // Provider key must be present for factory creation.
+            'provider' => Debug\DebugProvider::class,
+            'options' => [
+                // Provide this if you have provided an alternate route path via
+                // the oauth2clientauthentication.routes.debug key:
+                // 'callback_uri_template' => '/alternate/debug/callback?code=%s&state=%s',
 
-            // Provide this if you want to use an alternate path for the OAuth2
-            // "server" authorization:
-            // 'authorization_url' => '/alternate/debug/authorization',
+                // Provide this if you want to use an alternate path for the OAuth2
+                // "server" authorization:
+                // 'authorization_url' => '/alternate/debug/authorization',
+            ]
         ],
 
         // Facebook
         // 'facebook' => [
-        //     'clientId' => '{facebook-app-id}',
-        //     'clientSecret' => '{facebook-app-secret}',
-        //     'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
-        //     'graphApiVersion' => 'v2.10',
+        //     'provider' => Provider\Facebook::class,
+        //     'options' => [
+        //         'clientId' => '{facebook-app-id}',
+        //         'clientSecret' => '{facebook-app-secret}',
+        //         'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //         'graphApiVersion' => 'v2.10',
+        //     ],
         // ],
 
         // GitHub
         // 'github' => [
-        //     'clientId' => '{github-client-id}',
-        //     'clientSecret' => '{github-client-secret}',
-        //     'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //     'provider' => Provider\Github::class,
+        //     'options' => [
+        //         'clientId' => '{github-client-id}',
+        //         'clientSecret' => '{github-client-secret}',
+        //         'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //     ],
         // ],
 
         // Google
         // 'google' => [
-        //     'clientId' => '{google-client-id}',
-        //     'clientSecret' => '{google-client-secret}',
-        //     'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
-        //     'hostedDomain' => '', // scheme + domain of your app
+        //     'provider' => Provider\Google::class,
+        //     'options' => [
+        //         'clientId' => '{google-client-id}',
+        //         'clientSecret' => '{google-client-secret}',
+        //         'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //         'hostedDomain' => '', // scheme + domain of your app
+        //     ],
         // ],
 
         // Instagram
         // 'instagram' => [
-        //     'clientId' => '{instagram-client-id}',
-        //     'clientSecret' => '{instagram-client-secret}',
-        //     'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
-        //     'host' => 'https://api.instagram.com', // Optional; this is the default
+        //     'provider' => Provider\Instagram::class,
+        //     'options' => [
+        //        'clientId' => '{instagram-client-id}',
+        //        'clientSecret' => '{instagram-client-secret}',
+        //        'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //        'host' => 'https://api.instagram.com', // Optional; this is the default
+        //     ],
         // ],
 
         // LinkedIn
         // 'linkedin' => [
-        //     'clientId' => '{linkedin-client-id}',
-        //     'clientSecret' => '{linkedin-client-secret}',
-        //     'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //     'provider' => Provider\LinkedIn::class,
+        //     'options' => [
+        //         'clientId' => '{linkedin-client-id}',
+        //         'clientSecret' => '{linkedin-client-secret}',
+        //         'redirectUri' => '', // based on the auth_path + production route; must be fully qualifed
+        //     ],
+        // ],
+
+        // Customized
+        // 'custom' => [
+        //    'provider' => Provider\GenericProvider::class,
+        //    'options' => [
+        //        'clientId' => '',
+        //        'clientSecret' => '',
+        //        'redirectUri' => '',
+        //        'urlAuthorize' => '',
+        //        'urlAccessToken' => '',
+        //        'urlResourceOwnerDetails' => '',
+        //    ],
         // ],
     ],
     'dependencies' => [
