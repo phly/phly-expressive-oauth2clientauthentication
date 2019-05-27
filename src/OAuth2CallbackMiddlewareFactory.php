@@ -26,7 +26,7 @@ use Zend\Stratigility\MiddlewarePipe;
  *
  * <code>
  * // In config/pipeline.php:
- * $app->pipe('/auth', \Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware);
+ * $app->pipe('/auth', \Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware::class);
  *
  * // In config/oauth2clientauthentication.global.php:
  * use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware;

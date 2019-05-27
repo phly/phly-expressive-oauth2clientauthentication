@@ -38,7 +38,7 @@ has been set for providers in the configuration.
 ### Changed
 
 - Changes array disposition in the configuration files to include provider 
-and options keys (BC break). The provider array key tells the factory what 
+and options keys **(BC break)**. The provider array key tells the factory what 
 to instantiate and the options is passed to the Provider constructor.
  
 - Removes the check for `$knownProviders` in the method 

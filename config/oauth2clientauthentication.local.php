@@ -14,10 +14,6 @@ return [
         // Each OAuth2 provider has its own configuration. You may need to review
         // http://oauth2-client.thephpleague.com/providers/league/ for details
         // on each and what configuration options they accept.
-        //
-        // We do not currently support any third-party providers; if you wish to
-        // do so, you will need to extend the `OAuth2ProviderFactory` to enable
-        // them.
 
         // Debug
         // This is the debug provider shipped within this component for purposes
