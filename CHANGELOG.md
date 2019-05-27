@@ -44,6 +44,11 @@ to instantiate and the options is passed to the Provider constructor.
 - Removes the check for `$knownProviders` in the method 
 `createProvider(string $name)`.
 
+- Allows the username to default to `$resourceOwner->getId()` in method
+`getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string`
+if methods `$resourceOwner->getEmail()` and `$resourceOwner->getNickname()` 
+doesn't exists instead of throwing an `UnexpectedResourceOwnerTypeException`.
+
 ### Deprecated
 
 - Nothing.
@@ -54,6 +59,8 @@ to instantiate and the options is passed to the Provider constructor.
 
 - Removes the test method `testFactoryRaisesExceptionForUnknownProviderTypes()`
 as it's no longer needed.
+
+- Removes `UnexpectedResourceOwnerTypeException` as it is not used anymore.
 
 ### Fixed
 
