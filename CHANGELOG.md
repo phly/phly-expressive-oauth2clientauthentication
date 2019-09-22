@@ -40,9 +40,6 @@ has been set for providers in the configuration.
 - Changes array disposition in the configuration files to include provider 
 and options keys **(BC break)**. The provider array key tells the factory what 
 to instantiate and the options is passed to the Provider constructor.
- 
-- Removes the check for `$knownProviders` in the method 
-`createProvider(string $name)`.
 
 - Allows the username to default to `$resourceOwner->getId()` in method
 `getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string`
@@ -56,9 +53,6 @@ doesn't exists instead of throwing an `UnexpectedResourceOwnerTypeException`.
 ### Removed
 
 - Removes `UnsupportedProviderException` as it is not used anymore.
-
-- Removes the test method `testFactoryRaisesExceptionForUnknownProviderTypes()`
-as it's no longer needed.
 
 - Removes `UnexpectedResourceOwnerTypeException` as it is not used anymore.
 

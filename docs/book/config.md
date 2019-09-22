@@ -23,7 +23,9 @@ return [
 
         // Configure the production and debug routes for OAuth2 client callbacks
         // if desired. These strings will be relative to the 'auth_path' config
-        // as specified above.
+        // as specified above. Provider names in the regex should match the keys 
+        // associated with enabled providers in configuration. The "custom" string 
+        // is just an example of a provider key named "custom" described below.
         'routes' => [
             // Production path.
             // 'production' => '/{provider:facebook|github|google|instagram|linkedin|custom}[/oauth2callback]',
@@ -42,8 +44,8 @@ review the [league/oauth2-client providers documentation](http://oauth2-client.t
 for links to both full configuration documentation, as well as resources on how
 to obtain the various client identifiers and secrets you will need to use.
 
-Each provider you define needs at least the provider key with the Client class name and 
-the options key with an array which is passed to the Client constructor.
+Each provider you define needs at least the provider key with the client class name and 
+the options key with an array which is passed to the client constructor.
 
 This information should _not_ be shipped directly in your repository, but rather
 included as part of your application environment.
@@ -121,6 +123,9 @@ return [
         // ],
 
         // Customized
+        // It's possible to configure any provider that extend the League AbstractProvider, including custom 
+        // implementations or extensions. This example uses GenericProvider which can be used with any OAuth 
+        // 2.0 Server that uses Bearer tokens.
         // 'custom' => [
         //    'provider' => Provider\GenericProvider::class,
         //    'options' => [
