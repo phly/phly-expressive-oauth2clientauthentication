@@ -39,7 +39,9 @@ has been set for providers in the configuration.
 
 - Changes array disposition in the configuration files to include provider 
 and options keys **(BC break)**. The provider array key tells the factory what 
-to instantiate and the options is passed to the Provider constructor.
+to instantiate and the options is passed to the Provider constructor. Look into 
+[Local/Environment-specific configuration](https://phly.github.io/phly-expressive-oauth2clientauthentication/config/) 
+for specific implementation details and examples.
 
 - Allows the username to default to `$resourceOwner->getId()` in method
 `getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string`
