@@ -1,158 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  
+  
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="league/oauth2-client adapter for zend-expressive-authentication">  
-    <link rel="shortcut icon" href="../img/favicon.ico">
-
-    <title>Debug Provider - phly</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/styles-482aa2add1.css">
-
     
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Debug Provider - phly</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "The Debug Provider", url: "#_top", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script> 
 </head>
 
 <body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
 
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            
 
-            <!-- Main title -->
-            <span class="navbar-brand">
-                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
-                <a href="..">phly</a>
-            </span>
-        </div>
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
 
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-            
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                
-                
-                    <li >
-                        <a href="..">phly-expressive-oauth2clientauthentication</a>
-                    </li>
-                
-                
-                
-                    <li >
-                        <a href="../intro/">Introduction</a>
-                    </li>
-                
-                
-                
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li >
-    <a href="../config/">Configuration</a>
-</li>
+    
+    
+      
+    
 
-                        
-                            
-<li class="active">
-    <a href="./">Debug Provider</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../templates/">Templates</a>
-</li>
-
-                        
-                        </ul>
-                    </li>
-                
-                
-                </ul>
-            
-
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
-                        <i class="fa fa-book"></i> Components
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                
-                    <li>
-                        <a href="https://github.com/phly/phly-expressive-oauth2clientauthentication/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
-                        </a>
-                    </li>
-                
-            </ul>
-        </div>
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../templates/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../templates/" class="btn btn-xs btn-link">
+        Templates
+      </a>
     </div>
-</div>
-
-    <!-- content:begin -->
-    <div id="page-top" class="container docs">
-        
-        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#the-debug-provider">The Debug Provider</a></li>
-        
+    <div class="wm-article-nav">
+      <a href="../config/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../config/" class="btn btn-xs btn-link">
+        Configuration
+      </a>
+    </div>
     
-    </ul>
+  </div>
 
     
-    <ul class="pager hidden-print">
-      <li class="previous">
-        <a rel="prev" href="../config/"><i class="fa fa-arrow-left"></i> Previous</a>
-      </li>
-      <li class="next">
-        <a rel="next" href="../templates/">Next <i class="fa fa-arrow-right"></i></a>
-      </li>
-    </ul>
-    
-</div></div>
-        <div class="col-md-9" role="main">
 
-<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="..">phly</a></li>
-  
-    
-      
-        <li>Reference</li>
-      
-    
-  
-  <li class="active">Debug Provider</li>
-</ol>
-
-<h1 id="the-debug-provider">The Debug Provider</h1>
+    <h1 id="the-debug-provider">The Debug Provider</h1>
 <p>OAuth2 providers generally require that requests for the registered client come
 from a specific domain &mdash; and this can be problematic when testing your
 OAuth2 client workflow or pages behind authentication.</p>
@@ -163,132 +91,67 @@ along with an associated "authorization" handler.</p>
 when that occurs, the debug provider is added to the list of allowed providers,
 and its authorization handler is mapped to a route.</p>
 <p>You can configure both the authorization URI as well as the template for the
-callback URI:</p>
-<pre class="codehilite"><code class="language-php">// e.g. config/autoload/oauth2-client.local.php:
+callback URI in the options array:</p>
+<pre><code class="php">// e.g. config/autoload/oauth2-client.local.php:
 
 return [
     'oauth2clientauthentication' =&gt; [
         'debug' =&gt; [
-            // Provide this if you have provided an alternate route path via
-            // the oauth2clientauthentication.routes.debug key:
-            // 'callback_uri_template' =&gt; '/alternate/debug/callback?code=%s&amp;state=%s',
+            'provider' =&gt; Debug\DebugProvider::class,
+            'options' =&gt; [
+                // Provide this if you have provided an alternate route path via
+                // the oauth2clientauthentication.routes.debug key:
+                // 'callback_uri_template' =&gt; '/alternate/debug/callback?code=%s&amp;state=%s',
 
-            // Provide this if you want to use an alternate path for the OAuth2
-            // &quot;server&quot; authorization:
-            // 'authorization_url' =&gt; '/alternate/debug/authorization',
+                // Provide this if you want to use an alternate path for the OAuth2
+                // &quot;server&quot; authorization:
+                // 'authorization_url' =&gt; '/alternate/debug/authorization',
+            ]
         ],
     ],
-];</code></pre>
+];
+</code></pre>
 
-<hr />
+  <br>
+    
 
+    
+    
+      
+    
 
-<nav>
-  <ul class="pager hidden-print">
-    <li class="previous">
-      <a rel="prev" href="../config/"><i class="fa fa-arrow-left"></i> Previous</a>
-    </li>
-    <li class="next">
-      <a rel="next" href="../templates/">Next <i class="fa fa-arrow-right"></i></a>
-    </li>
-  </ul>
-</nav>
-</div>
-        
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../templates/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../templates/" class="btn btn-xs btn-link">
+        Templates
+      </a>
     </div>
-    <!-- content:end -->
-
-    <div id="footerwrap">
-    <div class="container">
-        <div class="row site-map">
-            <div class="col-lg-3">
-              <p>
-                <strong>Zend Framework</strong><br />
-                <a href="https://framework.zend.com/">framework.zend.com</a><br />
-                <a href="https://docs.zendframework.com">docs.zendframework.com</a><br />
-                <a href="https://packages.zendframework.com">packages.zendframework.com</a><br />
-                <a href="https://apigility.org">apigility.org</a><br />
-              </p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12 centered">
-                <a class="back-to-top" href="#page-top"><i class="fa fa-chevron-circle-up fa-4" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <div class="spacing"></div>
-
-        <div class="row">
-            <div class="col-lg-8">
-                <h4>Copyright</h4>
-                <div class="hline-w"></div>
-
-                <p>&copy; 2006-2017 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
-            </div>
-
-            <div class="col-lg-4">
-                <h4>Contacts</h4>
-                <div class="hline-w"></div>
-                <p>
-                    <a href="https://discourse.zendframework.com" class="btn-social btn-outline" alt="Forum" title="Forum"><i class="fa fa-comments"></i></a>
-                    <a href="https://zendframework-slack.herokuapp.com" class="btn-social btn-outline" alt="Slack" title="Slack"><i class="fa fa-slack"></i></a>
-                    <a href="https://github.com/zendframework" class="btn-social btn-outline" alt="Github" title="Github"><i class="fa fa-github"></i></a>
-                    <a href="https://twitter.com/zfdevteam" class="btn-social btn-outline" alt="Twitter" title="Twitter"><i class="fa fa-twitter"></i></a>
-                </p>
-            </div>
-        </div>
+    
+    <div class="wm-article-nav">
+      <a href="../config/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../config/" class="btn btn-xs btn-link">
+        Configuration
+      </a>
     </div>
-</div>
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-    <script>var base_url = '..';</script>
-    <script src="../js/scripts-0b6185f4a5.js"></script>
-    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
-        <script src="../search/require.js"></script>
-        <script src="../search/search.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        From here you can search these documents. Enter your search terms below.
-                    </p>
-                    <form role="form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                        </div>
-                    </form>
-                    <div id="mkdocs-search-results"></div>
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="zf-components">
-  <div class="zf-components-grid">
-    <div class="zf-logo">
-      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
-    </div>
-
-    <div class="component-list"></div>
-
-    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+    
   </div>
+
+    <br>
 </div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/phly/phly-expressive-oauth2clientauthentication/edit/master/docs/debug.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p><p>Copyright (c) 2019 <a href="https://mwop.net">Matthew Weier O&#39;Phinney</a></p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
 
 </body>
-
 </html>
