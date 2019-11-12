@@ -30,28 +30,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) fixes a namespace reference within a shipped config file.
 
-## 1.0.1 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
 ## 1.0.0 - 2018-10-18
 
 ### Added
