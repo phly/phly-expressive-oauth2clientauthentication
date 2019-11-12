@@ -199,10 +199,6 @@ class OAuth2Adapter implements AuthenticationInterface
         $session->set('auth', $sessionData);
     }
 
-    /**
-     * @throws Exception\UnexpectedResourceOwnerTypeException if unable to determine
-     *     username from resource owner.
-     */
     private function getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string
     {
         if (method_exists($resourceOwner, 'getEmail')) {
@@ -215,10 +211,7 @@ class OAuth2Adapter implements AuthenticationInterface
             return $resourceOwner->getNickname();
         }
 
-        if ($resourceOwner instanceof Debug\DebugResourceOwner) {
-            return $resourceOwner->getId();
-        }
-
-        throw Exception\UnexpectedResourceOwnerTypeException::forResourceOwner($resourceOwner);
+        // If none of the methods above exists, getId() is always present in a ResourceOwner.
+        return $resourceOwner->getId();
     }
 }

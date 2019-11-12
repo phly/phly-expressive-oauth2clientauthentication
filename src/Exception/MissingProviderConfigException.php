@@ -20,4 +20,14 @@ class MissingProviderConfigException extends RuntimeException implements Excepti
             $provider
         ));
     }
+
+    public static function forProviderKey(string $provider) : self
+    {
+        return new self(sprintf(
+            'No provider key found for OAuth2 provider "%s"; please provide it via '
+            . 'the config key oauth2clientauthentication.%s.provider',
+            $provider,
+            $provider
+        ));
+    }
 }

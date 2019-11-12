@@ -2,15 +2,19 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.0 - TBD
+## 2.0.0 - 2019-11-12
 
 ### Added
 
-- Nothing.
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) adds support for all League OAuth2 Clients that inherits from the upstream `League\OAuth2\Client\Provider\AbstractProvider`.
+
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) adds the method `forProviderKey(string $provider)` in `MissingProviderConfigException` in order to assert that the provider key has been set for providers in the configuration.
 
 ### Changed
 
-- Nothing.
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) changes array disposition in the configuration files to include `provider` and `options` keys **(BC break)**. The provider array key tells the factory what to instantiate, and the options value is passed to the `Provider` constructor.  Read the documentation on [local/environment-specific configuration](https://phly.github.io/phly-expressive-oauth2clientauthentication/config/) for specific implementation details and examples.
+
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) allows the username to default to `$resourceOwner->getId()` in method `getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string` if methods `$resourceOwner->getEmail()` and `$resourceOwner->getNickname()` don't exist, instead of throwing an `UnexpectedResourceOwnerTypeException`.
 
 ### Deprecated
 
@@ -18,11 +22,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) removes `UnsupportedProviderException`, as it is not used anymore.
+
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) removes `UnexpectedResourceOwnerTypeException`, as it is not used anymore.
 
 ### Fixed
 
-- Nothing.
+- [#3](https://github.com/phly/phly-expressive-oauth2clientauthentication/pull/3) fixes a namespace reference within a shipped config file.
 
 ## 1.0.1 - TBD
 
