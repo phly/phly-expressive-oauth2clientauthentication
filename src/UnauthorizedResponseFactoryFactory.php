@@ -5,12 +5,12 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 /**
  * Generate a callable capable of producing an "unauthorized" response.

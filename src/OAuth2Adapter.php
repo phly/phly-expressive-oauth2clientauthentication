@@ -5,16 +5,16 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Authentication\AuthenticationInterface;
-use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Session\SessionInterface;
-use Zend\Expressive\Session\SessionMiddleware;
+use Mezzio\Authentication\AuthenticationInterface;
+use Mezzio\Authentication\UserInterface;
+use Mezzio\Session\SessionInterface;
+use Mezzio\Session\SessionMiddleware;
 
 class OAuth2Adapter implements AuthenticationInterface
 {

@@ -5,18 +5,18 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
-use Zend\Expressive\Authentication\AuthenticationMiddleware;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Expressive\Session\SessionMiddleware;
-use Zend\Stratigility\MiddlewarePipe;
+use Mezzio\Authentication\AuthenticationMiddleware;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Session\SessionMiddleware;
+use Laminas\Stratigility\MiddlewarePipe;
 
 /**
  * Factory for providing the OAuth2 provider callback endpoints within your application.
@@ -26,11 +26,11 @@ use Zend\Stratigility\MiddlewarePipe;
  *
  * <code>
  * // In config/pipeline.php:
- * $app->pipe('/auth', \Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware::class);
+ * $app->pipe('/auth', \Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddleware::class);
  *
  * // In config/oauth2clientauthentication.global.php:
- * use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware;
- * use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
+ * use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddleware;
+ * use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
  *
  * return [
  *     'dependencies' => [

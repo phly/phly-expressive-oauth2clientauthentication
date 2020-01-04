@@ -5,9 +5,9 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\UnauthorizedResponseFactoryFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\UnauthorizedResponseFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class UnauthorizedResponseFactoryTest extends TestCase
 {

@@ -5,9 +5,9 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
-use Zend\Expressive\Authentication\AuthenticationInterface;
+use Mezzio\Authentication\AuthenticationInterface;
 
 /**
  * The configuration provider for the OAuth2ClientAuthentication module.

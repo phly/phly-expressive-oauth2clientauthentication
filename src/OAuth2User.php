@@ -5,9 +5,9 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
-use Zend\Expressive\Authentication\UserInterface;
+use Mezzio\Authentication\UserInterface;
 
 class OAuth2User implements UserInterface
 {
