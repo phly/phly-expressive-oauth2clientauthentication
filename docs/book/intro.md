@@ -1,7 +1,7 @@
-# phly-expressive-oauth2clientauthentication
+# phly-mezzio-oauth2clientauthentication
 
 This library provides a [league/oauth2-client](http://oauth2-client.thephpleague.com)
-adapter for use with [zend-expressive-authentication](https://docs.zendframework.com/zend-expressive-authentication).
+adapter for use with [mezzio-authentication](https://docs.laminas.dev/mezzio-authentication).
 It supports all OAuth2 Clients that inherit from `League\OAuth2\Client\Provider\AbstractProvider`.
 
 ## Installation
@@ -9,20 +9,20 @@ It supports all OAuth2 Clients that inherit from `League\OAuth2\Client\Provider\
 Install via Composer:
 
 ```bash
-$ composer require phly/phly-expressive-oauth2clientauthentication
+$ composer require phly/phly-mezzio-oauth2clientauthentication
 ```
 
-If you are using the [zend-component-installer Composer
-plugin](https://docs.zendframework.com/zend-component-installer/),
+If you are using the [laminas-component-installer Composer
+plugin](https://docs.laminas.dev/laminas-component-installer/),
 this will automatically register the shipped `ConfigProvider` with your
 application, as well as those of its dependencies (including
-zend-expressive-authentication and zend-expressive-session). If you are not, you
+mezzio-authentication and mezzio-session). If you are not, you
 will need to use the shipped
-`Phly\Expressive\OAuth2ClientAuthentication\ConfigProvider` to add configuration
+`Phly\Mezzio\OAuth2ClientAuthentication\ConfigProvider` to add configuration
 to your application:
 
 ```php
-use Phly\Expressive\OAuth2ClientAuthentication\ConfigProvider;
+use Phly\Mezzio\OAuth2ClientAuthentication\ConfigProvider;
 
 return (new ConfigProvider())();
 ```

@@ -5,10 +5,10 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication\Debug;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication\Debug;
 
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProvider;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

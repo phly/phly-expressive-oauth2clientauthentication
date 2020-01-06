@@ -5,24 +5,24 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use ReflectionProperty;
-use Zend\Expressive\Authentication\AuthenticationMiddleware;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Session\SessionMiddleware;
-use Zend\Stratigility\MiddlewarePipe;
+use Mezzio\Authentication\AuthenticationMiddleware;
+use Mezzio\MiddlewareContainer;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Session\SessionMiddleware;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 {

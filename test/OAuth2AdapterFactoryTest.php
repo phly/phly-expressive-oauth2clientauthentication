@@ -5,13 +5,13 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2Adapter;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2AdapterFactory;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2ProviderFactory;
-use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactory;
-use Phly\Expressive\OAuth2ClientAuthentication\UnauthorizedResponseFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2Adapter;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2AdapterFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2ProviderFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\RedirectResponseFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\UnauthorizedResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 

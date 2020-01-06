@@ -8,7 +8,7 @@ nav:
       - "Debug Provider": debug.md
       - Templates: templates.md
 site_name: 'phly'
-site_description: 'league/oauth2-client adapter for zend-expressive-authentication'
-repo_url: 'https://github.com/phly/phly-expressive-oauth2clientauthentication'
+site_description: 'league/oauth2-client adapter for mezzio-authentication'
+repo_url: 'https://github.com/phly/phly-mezzio-oauth2clientauthentication'
 copyright: 'Copyright (c) 2019 <a href="https://mwop.net">Matthew Weier O&#39;Phinney</a>'
 theme: windmill

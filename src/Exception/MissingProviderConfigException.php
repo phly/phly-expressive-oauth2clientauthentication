@@ -5,7 +5,7 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication\Exception;
+namespace Phly\Mezzio\OAuth2ClientAuthentication\Exception;
 
 use RuntimeException;
 

@@ -5,12 +5,12 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication\Debug;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication\Debug;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProvider;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
 use PHPUnit\Framework\TestCase;
 
 class DebugProviderTest extends TestCase

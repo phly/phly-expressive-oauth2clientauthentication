@@ -5,9 +5,9 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactoryFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\RedirectResponseFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;

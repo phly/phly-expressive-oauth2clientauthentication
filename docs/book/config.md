@@ -151,13 +151,13 @@ return [
 
 The various callbacks operate under a base path as specified by the
 `oauth2clientauthentication.auth_path` configuration, which defaults to `/auth`.
-You will need to pipe the `Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware`
+You will need to pipe the `Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddleware`
 service to that path:
 
 ```php
 // In config/pipeline.php:
 
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2CallbackMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddleware;
 
 $app->pipe('/auth', OAuth2CallbackMiddleware::class);
 ```
@@ -167,9 +167,9 @@ $app->pipe('/auth', OAuth2CallbackMiddleware::class);
 ## Route configuration
 
 Once the above is complete, you can add
-`Zend\Expressive\Authentication\AuthenticationMiddleware` to your route-specific
+`Mezzio\Authentication\AuthenticationMiddleware` to your route-specific
 pipelines. You will also need to pipe
-`Zend\Expressive\Session\SessionMiddleware` in these pipelines as this adapter
+`Mezzio\Session\SessionMiddleware` in these pipelines as this adapter
 persists user information within the session.
 
 As an example:
@@ -177,8 +177,8 @@ As an example:
 ```php
 // In config/routes.php
 
-use Zend\Expressive\Authentication\AuthenticationMiddleware;
-use Zend\Expressive\Session\SessionMiddleware;
+use Mezzio\Authentication\AuthenticationMiddleware;
+use Mezzio\Session\SessionMiddleware;
 
 $app->post('/api/books', [
     SessionMiddleware::class,

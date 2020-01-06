@@ -4,7 +4,7 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="phly-expressive-oauth2clientauthentication">
+        <testsuite name="phly-mezzio-oauth2clientauthentication">
             <directory>./test</directory>
         </testsuite>
     </testsuites>

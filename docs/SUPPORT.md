@@ -1,15 +1,14 @@
 # Getting Support
 
-Zend Framework offers three support channels:
+Laminas offers the following support channels:
 
 - For real-time questions, use our
-  [Slack](https://zendframework-slack.herokuapp.com)
+  [chat](https://laminas.dev/chat)
 - For detailed questions (e.g., those requiring examples) use our
-  [forums](https://discourse.zendframework.com/c/questions/components)
-- To report issues, use this repository's
-  [issue tracker](https://github.com/phly/phly-expressive-oauth2clientauthentication/issues/new)
+  [forums](https://discourse.laminas.dev)
+- To report issues, use this repository's issue tracker.
 
-**DO NOT** use the issue tracker to ask questions; use Slack or the forums for
+**DO NOT** use the issue tracker to ask questions; use chat or the forums for
 that. Questions posed to the issue tracker will be closed.
 
 When reporting an issue, please include the following details:

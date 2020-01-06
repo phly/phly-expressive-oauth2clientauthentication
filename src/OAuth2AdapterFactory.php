@@ -5,7 +5,7 @@
  * @copyright Copyright (c) Matthew Weier O'Phinney
  */
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
 use Psr\Container\ContainerInterface;
 
