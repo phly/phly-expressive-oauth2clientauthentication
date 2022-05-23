@@ -1,20 +1,10 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
 namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
-use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
-use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use ReflectionProperty;
+use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Authentication\AuthenticationMiddleware;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
@@ -22,10 +12,21 @@ use Mezzio\Router\FastRouteRouter;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Router\RouterInterface;
 use Mezzio\Session\SessionMiddleware;
-use Laminas\Stratigility\MiddlewarePipe;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2CallbackMiddlewareFactory;
+use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use ReflectionProperty;
+
+use function sprintf;
 
 class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
@@ -35,7 +36,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
     /** @var OAuth2CallbackMiddlewareFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
 
@@ -60,11 +61,12 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
     public function assertContainsExpectedRoute(string $path, MiddlewarePipe $pipeline)
     {
         $routeMiddleware = $this->getRouteMiddlewareFromPipeline($pipeline);
-        $routes = $this->getRoutesFromRouteMiddleware($routeMiddleware);
+        $routes          = $this->getRoutesFromRouteMiddleware($routeMiddleware);
 
         $found = false;
         foreach ($routes as $route) {
-            if ($route->getPath() === $path
+            if (
+                $route->getPath() === $path
                 && ['GET'] === $route->getAllowedMethods()
             ) {
                 $found = true;
@@ -84,7 +86,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->assertCount(3, $pipeline, 'Pipeline does not contain expected count of middleware');
     }
 
-    private function getRouteMiddlewareFromPipeline(MiddlewarePipe $pipeline) : MiddlewareInterface
+    private function getRouteMiddlewareFromPipeline(MiddlewarePipe $pipeline): MiddlewareInterface
     {
         $r = new ReflectionProperty($pipeline, 'pipeline');
         $r->setAccessible(true);
@@ -98,7 +100,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $this->fail('Could not locate route middleware in pipeline!');
     }
 
-    private function getRoutesFromRouteMiddleware(RouteMiddleware $middleware) : array
+    private function getRoutesFromRouteMiddleware(RouteMiddleware $middleware): array
     {
         $r = new ReflectionProperty($middleware, 'router');
         $r->setAccessible(true);
@@ -179,7 +181,7 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
         $debugRoute = '/{provider:debug}[/callback]';
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
-            'debug' => true,
+            'debug'                      => true,
             'oauth2clientauthentication' => [
                 'routes' => [
                     'debug' => $debugRoute,
@@ -200,16 +202,16 @@ class OAuth2CallbackMiddlewareFactoryTest extends TestCase
 
     public function testServiceFactoryCanUseDebugAuthorizationRouteProvidedViaConfiguration()
     {
-        $debugRoute = '/{provider:debug}[/callback]';
+        $debugRoute          = '/{provider:debug}[/callback]';
         $debugAuthorizeRoute = '/debug/authorization';
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
-            'debug' => true,
+            'debug'                      => true,
             'oauth2clientauthentication' => [
                 'routes' => [
                     'debug' => $debugRoute,
                 ],
-                'debug' => [
+                'debug'  => [
                     'authorization_url' => $debugAuthorizeRoute,
                 ],
             ],

@@ -1,25 +1,34 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
 namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Mezzio\Authentication\AuthenticationInterface;
 use Mezzio\Authentication\UserInterface;
 use Mezzio\Session\SessionInterface;
 use Mezzio\Session\SessionMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\Exception;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
+
+use function array_merge;
+use function is_array;
+use function is_string;
+use function method_exists;
 
 class OAuth2Adapter implements AuthenticationInterface
 {
+    /** @var OAuth2ProviderFactory */
     private $providerFactory;
+
+    /** @var callable */
     private $redirectResponseFactory;
+
+    /** @var callable */
     private $unauthorizedResponseFactory;
 
     public function __construct(
@@ -43,7 +52,7 @@ class OAuth2Adapter implements AuthenticationInterface
      * On subsequent requests, this method will return the authenticated
      * user as retrieved from the session.
      */
-    public function authenticate(ServerRequestInterface $request) : ?UserInterface
+    public function authenticate(ServerRequestInterface $request): ?UserInterface
     {
         $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
 
@@ -84,7 +93,8 @@ class OAuth2Adapter implements AuthenticationInterface
         }
 
         // No oauth2 state present, so simply unauthorized
-        if (empty($params['state'])
+        if (
+            empty($params['state'])
             || ! isset($oauth2SessionData['state'])
             || $params['state'] !== $oauth2SessionData['state']
         ) {
@@ -98,7 +108,7 @@ class OAuth2Adapter implements AuthenticationInterface
             ]);
 
             $resourceOwner = $provider->getResourceOwner($token);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->processError($e);
         }
 
@@ -126,14 +136,15 @@ class OAuth2Adapter implements AuthenticationInterface
      *
      * Otherwise, we display the login page.
      */
-    public function unauthorizedResponse(ServerRequestInterface $request) : ResponseInterface
+    public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
         $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
 
         $oauth2SessionData = $session->get('auth');
 
         // Successfully authorized; time to redirect
-        if (is_array($oauth2SessionData)
+        if (
+            is_array($oauth2SessionData)
             && isset($oauth2SessionData['user'])
             && isset($oauth2SessionData['redirect'])
         ) {
@@ -155,24 +166,24 @@ class OAuth2Adapter implements AuthenticationInterface
         return ($this->unauthorizedResponseFactory)($request);
     }
 
-    private function isAuthenticatedSession(SessionInterface $session) : bool
+    private function isAuthenticatedSession(SessionInterface $session): bool
     {
         $data = $session->get('auth');
         return is_array($data) && isset($data['user']['username']);
     }
 
-    private function getUserFromSession(SessionInterface $session) : UserInterface
+    private function getUserFromSession(SessionInterface $session): UserInterface
     {
-        $data = $session->get('auth');
+        $data     = $session->get('auth');
         $username = $data['user']['username'];
         return new OAuth2User($username, $data['user']);
     }
 
     /**
-     * @param string|\Throwable
+     * @param string|Throwable $error
      * @throws Exception\OAuth2ProviderException
      */
-    private function processError($error)
+    private function processError(mixed $error)
     {
         if (is_string($error)) {
             throw Exception\OAuth2ProviderException::forErrorString($error);
@@ -194,12 +205,12 @@ class OAuth2Adapter implements AuthenticationInterface
             $sessionData['redirect'] = $redirect;
         }
 
-        $sessionData['state'] = $provider->getState();
+        $sessionData['state']             = $provider->getState();
         $sessionData['authorization_url'] = $authorizationUrl;
         $session->set('auth', $sessionData);
     }
 
-    private function getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner) : string
+    private function getUsernameFromResourceOwner(ResourceOwnerInterface $resourceOwner): ?string
     {
         if (method_exists($resourceOwner, 'getEmail')) {
             // All official providers except Instagram

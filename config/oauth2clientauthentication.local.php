@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
 namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
@@ -21,7 +18,7 @@ return [
         'debug' => [
             // Provider key must be present for factory creation.
             'provider' => Debug\DebugProvider::class,
-            'options' => [
+            'options'  => [
                 // Provide this if you have provided an alternate route path via
                 // the oauth2clientauthentication.routes.debug key:
                 // 'callback_uri_template' => '/alternate/debug/callback?code=%s&state=%s',
@@ -29,7 +26,7 @@ return [
                 // Provide this if you want to use an alternate path for the OAuth2
                 // "server" authorization:
                 // 'authorization_url' => '/alternate/debug/authorization',
-            ]
+            ],
         ],
 
         // Facebook
@@ -98,7 +95,7 @@ return [
         //    ],
         // ],
     ],
-    'dependencies' => [
+    'dependencies'               => [
         'factories' => [
             // Enable this when in debug mode:
             // Debug\DebugProviderMiddleware::class => Debug\DebugProviderMiddlewareFactory::class,

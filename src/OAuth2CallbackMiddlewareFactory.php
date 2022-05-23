@@ -1,22 +1,19 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
 namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
-use Psr\Container\ContainerInterface;
-use Psr\Http\Server\MiddlewareInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Authentication\AuthenticationMiddleware;
 use Mezzio\MiddlewareFactory;
-use Mezzio\Router\Route;
-use Mezzio\Router\RouterInterface;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
 use Mezzio\Session\SessionMiddleware;
-use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 /**
  * Factory for providing the OAuth2 provider callback endpoints within your application.
@@ -64,14 +61,14 @@ use Laminas\Stratigility\MiddlewarePipe;
  */
 class OAuth2CallbackMiddlewareFactory
 {
-    public const ROUTE_DEBUG = '/{provider:debug|facebook|github|google|instagram|linkedin}[/oauth2callback]';
+    public const ROUTE_DEBUG           = '/{provider:debug|facebook|github|google|instagram|linkedin}[/oauth2callback]';
     public const ROUTE_DEBUG_AUTHORIZE = '/debug/authorize';
-    public const ROUTE_PROD = '/{provider:facebook|github|google|instagram|linkedin}[/oauth2callback]';
+    public const ROUTE_PROD            = '/{provider:facebook|github|google|instagram|linkedin}[/oauth2callback]';
 
-    public function __invoke(ContainerInterface $container) : MiddlewareInterface
+    public function __invoke(ContainerInterface $container): MiddlewareInterface
     {
         $factory = $container->get(MiddlewareFactory::class);
-        $router = $this->getRouter($container);
+        $router  = $this->getRouter($container);
 
         $pipeline = new MiddlewarePipe();
 
@@ -103,7 +100,7 @@ class OAuth2CallbackMiddlewareFactory
         return $pipeline;
     }
 
-    private function getRouteFromConfig(array $routes, bool $debug) : string
+    private function getRouteFromConfig(array $routes, bool $debug): string
     {
         if ($debug) {
             return $routes['debug'] ?? self::ROUTE_DEBUG;
@@ -112,10 +109,10 @@ class OAuth2CallbackMiddlewareFactory
         return $routes['production'] ?? self::ROUTE_PROD;
     }
 
-    private function getRouter(ContainerInterface $container) : RouterInterface
+    private function getRouter(ContainerInterface $container): RouterInterface
     {
         $router = $container->get(RouterInterface::class);
-        $class = get_class($router);
+        $class  = $router::class;
         return new $class();
     }
 }

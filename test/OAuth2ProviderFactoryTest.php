@@ -1,45 +1,46 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
 namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
+use Generator;
 use League\OAuth2\Client\Provider;
 use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProvider;
 use Phly\Mezzio\OAuth2ClientAuthentication\Exception;
 use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2ProviderFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 
 class OAuth2ProviderFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
     /** @var OAuth2ProviderFactory|ObjectProphecy */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->factory = new OAuth2ProviderFactory($this->container->reveal());
+        $this->factory   = new OAuth2ProviderFactory($this->container->reveal());
     }
 
-    public function invalidConfiguration()
+    public function invalidConfiguration(): array
     {
         return [
-            'empty' => [[]],
-            'missing-provider' => [['oauth2clientauthentication' => []]],
+            'empty'                => [[]],
+            'missing-provider'     => [['oauth2clientauthentication' => []]],
             'missing-provider-key' => [
                 [
                     'oauth2clientauthentication' => [
-                        'debug' => [/*Missing provider key*/]
-                    ]
-                ]
+                        'debug' => [], /*Missing provider key*/
+                    ],
+                ],
             ],
         ];
     }
@@ -56,66 +57,64 @@ class OAuth2ProviderFactoryTest extends TestCase
         $this->factory->createProvider('debug');
     }
 
-    public function validConfiguration()
+    public function validConfiguration(): Generator
     {
         yield 'debug' => [
             'debug',
             [
                 'provider' => DebugProvider::class,
-                'options' => []
+                'options'  => [],
             ],
-            DebugProvider::class
+            DebugProvider::class,
         ];
 
         yield 'github' => [
             'github',
             [
                 'provider' => Provider\Github::class,
-                'options' => [
-                    'clientId' => '',
+                'options'  => [
+                    'clientId'     => '',
                     'clientSecret' => '',
-                    'redirectUri' => '',
-                ]
+                    'redirectUri'  => '',
+                ],
             ],
-            Provider\Github::class
+            Provider\Github::class,
         ];
 
         yield 'google' => [
             'google',
             [
                 'provider' => Provider\Google::class,
-                'options' => [
-                    'clientId' => '',
+                'options'  => [
+                    'clientId'     => '',
                     'clientSecret' => '',
-                    'redirectUri' => '',
+                    'redirectUri'  => '',
                     'hostedDomain' => '',
                 ],
             ],
-            Provider\Google::class
+            Provider\Google::class,
         ];
 
         yield 'custom' => [
             'custom',
             [
                 'provider' => Provider\GenericProvider::class,
-                'options' => [
-                    'clientId' => '',
-                    'clientSecret' => '',
-                    'redirectUri' => '',
-                    'urlAuthorize' => '',
-                    'urlAccessToken' => '',
+                'options'  => [
+                    'clientId'                => '',
+                    'clientSecret'            => '',
+                    'redirectUri'             => '',
+                    'urlAuthorize'            => '',
+                    'urlAccessToken'          => '',
                     'urlResourceOwnerDetails' => '',
                 ],
             ],
-            Provider\GenericProvider::class
+            Provider\GenericProvider::class,
         ];
     }
 
     /**
      * @dataProvider validConfiguration
-     * @param string $providerType
      * @param array $config
-     * @param string $expectedType
      */
     public function testFactoryReturnsOAuth2ClientProviderWithValidConfiguration(
         string $providerType,
