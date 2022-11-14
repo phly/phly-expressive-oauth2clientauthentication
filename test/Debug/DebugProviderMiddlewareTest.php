@@ -1,25 +1,27 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication\Debug;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication\Debug;
 
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProvider;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProviderMiddleware;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function sprintf;
+
 class DebugProviderMiddlewareTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testUsesDefaultValuesToProduceRedirectResponse()
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
         $response = $this->prophesize(ResponseInterface::class)->reveal();
 
         $expected = sprintf(
@@ -43,9 +45,9 @@ class DebugProviderMiddlewareTest extends TestCase
     public function testWillUsesPathTemplateProvidedInConstructorToProduceRedirectResponse()
     {
         $pathTemplate = '/oauth2/debug/callback?code=%s&state=%s';
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $request      = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $handler      = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $response     = $this->prophesize(ResponseInterface::class)->reveal();
 
         $expected = sprintf(
             $pathTemplate,

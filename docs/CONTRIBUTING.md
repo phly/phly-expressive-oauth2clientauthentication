@@ -5,13 +5,13 @@
 If you wish to contribute to this project, please be sure to
 read/subscribe to the following resources:
 
- - [Coding Standards](https://github.com/zendframework/zend-coding-standard)
- - [Forums](https://discourse.zendframework.com/c/contributors)
- - [Slack](https://zendframework-slack.herokuapp.com)
- - [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Coding Standards](https://github.com/laminas/laminas-coding-standard)
+- [Forums](https://discourse.laminas.dev/c/contributors)
+- [Chat](https://laminas.dev/chat)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 
 If you are working on new features or refactoring
-[create a proposal](https://github.com/phly/phly-expressive-oauth2clientauthentication/issues/new).
+[create a proposal](https://github.com/phly/phly-mezzio-oauth2clientauthentication/issues/new).
 
 ## RUNNING TESTS
 
@@ -20,8 +20,8 @@ To run tests:
 - Clone the repository:
 
   ```console
-  $ git clone git://github.com/phly/phly-expressive-oauth2clientauthentication.git
-  $ cd phly-expressive-oauth2clientauthentication
+  $ git clone git://github.com/phly/phly-mezzio-oauth2clientauthentication.git
+  $ cd phly-mezzio-oauth2clientauthentication
   ```
 
 - Install dependencies via composer:
@@ -72,26 +72,26 @@ pull your work into the master repository. We recommend using
 [GitHub](https://github.com), as that is where the component is already hosted.
 
 1. Setup a [GitHub account](https://github.com/), if you haven't yet
-2. Fork the repository (https://github.com/phly/phly-expressive-oauth2clientauthentication)
+2. Fork the repository (https://github.com/phly/phly-mezzio-oauth2clientauthentication)
 3. Clone the canonical repository locally and enter it.
 
    ```console
-   $ git clone git://github.com/phly/phly-expressive-oauth2clientauthentication.git
-   $ cd phly-expressive-oauth2clientauthentication
+   $ git clone git://github.com/phly/phly-mezzio-oauth2clientauthentication.git
+   $ cd phly-mezzio-oauth2clientauthentication
    ```
 
 4. Add a remote to your fork; substitute your GitHub username in the command
    below.
 
    ```console
-   $ git remote add {username} git@github.com:{username}/phly-expressive-oauth2clientauthentication.git
+   $ git remote add {username} git@github.com:{username}/phly-mezzio-oauth2clientauthentication.git
    $ git fetch {username}
    ```
 
 ### Keeping Up-to-Date
 
 Periodically, you should update your fork or personal repository to
-match the canonical ZF repository. Assuming you have setup your local repository
+match the canonical Laminas repository. Assuming you have setup your local repository
 per the instructions above, you can do the following:
 
 
@@ -147,7 +147,7 @@ Delta compression using up to 2 threads.
 Compression objects: 100% (18/18), done.
 Writing objects: 100% (20/20), 8.19KiB, done.
 Total 20 (delta 12), reused 0 (delta 0)
-To ssh://git@github.com/{username}/phly-expressive-oauth2clientauthentication.git
+To ssh://git@github.com/{username}/phly-mezzio-oauth2clientauthentication.git
    b5583aa..4f51698  HEAD -> master
 ```
 
@@ -156,7 +156,7 @@ To send a pull request, you have two options.
 If using GitHub, you can do the pull request from there. Navigate to
 your repository, select the branch you just created, and then select the
 "Pull Request" button in the upper right. Select the user/organization
-"zendframework" (or whatever the upstream organization is) as the recipient.
+"laminas" (or whatever the upstream organization is) as the recipient.
 
 #### What branch to issue the pull request against?
 

@@ -1,13 +1,10 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
-use Zend\Expressive\Authentication\UserInterface;
+use Mezzio\Authentication\UserInterface;
 
 class OAuth2User implements UserInterface
 {
@@ -23,22 +20,25 @@ class OAuth2User implements UserInterface
         $this->userData = $userData;
     }
 
-    public function getIdentity() : string
+    public function getIdentity(): string
     {
         return $this->identity;
     }
 
-    public function getRoles() : iterable
+    public function getRoles(): iterable
     {
         return $this->userData['roles'] ?? [];
     }
 
-    public function getDetail(string $name, $default = null)
+    /**
+     * @param ?string $default - default detail
+     */
+    public function getDetail(string $name, $default = null): ?string
     {
         return $this->userData[$name] ?? $default;
     }
 
-    public function getDetails() : array
+    public function getDetails(): array
     {
         return $this->userData;
     }

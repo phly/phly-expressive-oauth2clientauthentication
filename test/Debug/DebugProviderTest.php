@@ -1,20 +1,20 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication\Debug;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication\Debug;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProvider;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class DebugProviderTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testDefaultState()
     {
         $provider = new DebugProvider();
@@ -36,7 +36,7 @@ class DebugProviderTest extends TestCase
 
     public function testAllowsProvidingAuthorizationUrlViaConstructor()
     {
-        $url = '/oauth2/debug/validate';
+        $url      = '/oauth2/debug/validate';
         $provider = new DebugProvider([
             'authorization_url' => $url,
         ]);

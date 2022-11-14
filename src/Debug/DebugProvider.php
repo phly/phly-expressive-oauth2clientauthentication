@@ -1,11 +1,8 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace Phly\Expressive\OAuth2ClientAuthentication\Debug;
+namespace Phly\Mezzio\OAuth2ClientAuthentication\Debug;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
@@ -14,13 +11,11 @@ use Psr\Http\Message\ResponseInterface;
 class DebugProvider extends AbstractProvider
 {
     public const AUTHORIZATION_URL = '/auth/debug/authorize';
-    public const CODE = 'CODE';
-    public const STATE = 'DEBUG';
-    public const TOKEN = 'TOKEN';
+    public const CODE              = 'CODE';
+    public const STATE             = 'DEBUG';
+    public const TOKEN             = 'TOKEN';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $authorizationUrl;
 
     public function __construct(array $options = [])
@@ -58,7 +53,6 @@ class DebugProvider extends AbstractProvider
     }
 
     /**
-     * @param AccessToken $token
      * @return DebugResourceOwner
      */
     public function getResourceOwner(AccessToken $token)
@@ -96,6 +90,8 @@ class DebugProvider extends AbstractProvider
 
     /**
      * No-op; implemented to fulfill abstract parent class.
+     *
+     * @param array $data - parameter data
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {

@@ -1,26 +1,31 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2ProviderFactory;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2ProviderFactoryFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2ProviderFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2ProviderFactoryFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
 
 class OAuth2ProviderFactoryFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testServiceFactoryProducesExpectedFactory()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container      = $this->prophesize(ContainerInterface::class)->reveal();
         $serviceFactory = new OAuth2ProviderFactoryFactory();
-        $factory = $serviceFactory($container);
+        $factory        = $serviceFactory($container);
+
+        $reflection          = new ReflectionClass($factory);
+        $reflectionContainer = $reflection->getProperty('container');
+        $reflectionContainer->setAccessible(true);
 
         $this->assertInstanceOf(OAuth2ProviderFactory::class, $factory);
-        $this->assertAttributeSame($container, 'container', $factory);
+        $this->assertSame($container, $reflectionContainer->getValue($factory));
     }
 }

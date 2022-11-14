@@ -1,35 +1,36 @@
 {
-    "name": "phly/phly-expressive-oauth2clientauthentication",
-    "description": "league/oauth2-client adapter for zendframework/zend-expressive-authentication",
+    "name": "phly/phly-mezzio-oauth2clientauthentication",
+    "description": "league/oauth2-client adapter for mezzio/mezzio-authentication",
     "license": "BSD-2-Clause",
     "keywords": [
         "authentication",
         "oauth2",
-        "expressive",
+        "mezzio",
         "psr-7",
         "psr-15"
     ],
     "support": {
-        "docs": "https://phly.github.io/phly-expressive-oauth2clientauthentication/",
-        "issues": "https://github.com/phly/phly-expressive-oauth2clientauthentication/issues",
-        "source": "https://github.com/phly/phly-expressive-oauth2clientauthentication",
-        "rss": "https://github.com/phly/phly-expressive-oauth2clientauthentication/releases.atom"
+        "docs": "https://phly.github.io/phly-mezzio-oauth2clientauthentication/",
+        "issues": "https://github.com/phly/phly-mezzio-oauth2clientauthentication/issues",
+        "source": "https://github.com/phly/phly-mezzio-oauth2clientauthentication",
+        "rss": "https://github.com/phly/phly-mezzio-oauth2clientauthentication/releases.atom"
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.4 || ~8.0.0 || ~8.1.0",
         "league/oauth2-client": "^2.2",
-        "zendframework/zend-expressive": "^3.0",
-        "zendframework/zend-expressive-authentication": "^1.0",
-        "zendframework/zend-expressive-session": "^1.0"
+        "mezzio/mezzio": "^3.0",
+        "mezzio/mezzio-authentication": "^1.0",
+        "mezzio/mezzio-session": "^1.0"
     },
     "require-dev": {
-        "league/oauth2-github": "^2.0",
-        "league/oauth2-google": "^2.0",
-        "league/oauth2-instagram": "^2.0",
-        "phpunit/phpunit": "^7.0.2",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-expressive-fastroute": "^3.0",
-        "zendframework/zend-expressive-template": "^2.0"
+        "laminas/laminas-coding-standard": "^2.3",
+        "league/oauth2-github": "^3.0",
+        "league/oauth2-google": "^4.0",
+        "league/oauth2-instagram": "^3.1.0",
+        "mezzio/mezzio-fastroute": "^3.0",
+        "mezzio/mezzio-template": "^2.0",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.5.11"
     },
     "suggest": {
         "league/oauth2-facebook": "To use the Facebook OAuth2 provider",
@@ -37,20 +38,23 @@
         "league/oauth2-google": "To use the Google OAuth2 provider",
         "league/oauth2-instagram": "To use the Instagram OAuth2 provider",
         "league/oauth2-linkedin": "To use the LinkedIn OAuth2 provider",
-        "zendframework/zend-expressive-template": "To use the shipped UnauthorizedResponseFactory, which includes template support"
+        "mezzio/mezzio-template": "To use the shipped UnauthorizedResponseFactory, which includes template support"
     },
     "autoload": {
         "psr-4": {
-            "Phly\\Expressive\\OAuth2ClientAuthentication\\": "src/"
+            "Phly\\Mezzio\\OAuth2ClientAuthentication\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhlyTest\\Expressive\\OAuth2ClientAuthentication\\": "test/"
+            "PhlyTest\\Mezzio\\OAuth2ClientAuthentication\\": "test/"
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "branch-alias": {
@@ -58,7 +62,7 @@
             "dev-develop": "1.1.x-dev"
         },
         "zf": {
-            "config-provider": "Phly\\Expressive\\OAuth2ClientAuthentication\\ConfigProvider"
+            "config-provider": "Phly\\Mezzio\\OAuth2ClientAuthentication\\ConfigProvider"
         }
     },
     "scripts": {

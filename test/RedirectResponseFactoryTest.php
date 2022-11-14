@@ -1,29 +1,29 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactoryFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\RedirectResponseFactoryFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class RedirectResponseFactoryTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait;
+
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->factory = new RedirectResponseFactoryFactory();
+        $this->factory   = new RedirectResponseFactoryFactory();
     }
 
     public function testServiceFactoryReturnsCallable()
     {
         $responseFactory = ($this->factory)($this->container->reveal());
-        $this->assertInternalType('callable', $responseFactory);
+        $this->assertIsCallable($responseFactory);
     }
 
     public function testResponseFactoryReturns302ResponseWithLocationBasedOnUrlArgument()
@@ -36,7 +36,7 @@ class RedirectResponseFactoryTest extends TestCase
         });
 
         $factory = ($this->factory)($this->container->reveal());
-        $result = $factory('/some/url');
+        $result  = $factory('/some/url');
         $this->assertSame($response->reveal(), $result);
     }
 }

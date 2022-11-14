@@ -1,14 +1,12 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace Phly\Expressive\OAuth2ClientAuthentication\Debug;
+namespace Phly\Mezzio\OAuth2ClientAuthentication\Debug;
 
-use Phly\Expressive\OAuth2ClientAuthentication\RedirectResponseFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\RedirectResponseFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 /**
  * Produces the DebugProviderMiddleware.
@@ -31,9 +29,9 @@ use Psr\Container\ContainerInterface;
  */
 class DebugProviderMiddlewareFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): MiddlewareInterface
     {
-        $config = $container->has('config') ? $container->get('config') : [];
+        $config       = $container->has('config') ? $container->get('config') : [];
         $pathTemplate = $config['oauth2clientauthentication']['debug']['callback_uri_template']
             ?? DebugProviderMiddleware::DEFAULT_PATH_TEMPLATE;
         return new DebugProviderMiddleware(

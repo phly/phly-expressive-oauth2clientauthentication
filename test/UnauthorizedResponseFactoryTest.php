@@ -1,45 +1,47 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\UnauthorizedResponseFactoryFactory;
+use Mezzio\Template\TemplateRendererInterface;
+use Phly\Mezzio\OAuth2ClientAuthentication\UnauthorizedResponseFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+
+use function array_key_exists;
 
 class UnauthorizedResponseFactoryTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait;
+
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->factory = new UnauthorizedResponseFactoryFactory();
+        $this->factory   = new UnauthorizedResponseFactoryFactory();
     }
 
     public function testServiceFactoryReturnsCallable()
     {
         $responseFactory = ($this->factory)($this->container->reveal());
-        $this->assertInternalType('callable', $responseFactory);
+        $this->assertIsCallable($responseFactory);
     }
 
-    public function configValues()
+    public function configValues(): array
     {
         return [
             //             [config exists?, config data]
-            'no-config'   => [false,        []],
-            'no-debug'    => [true,         []],
-            'debug-false' => [true,         ['debug' => false]],
-            'debug-true'  => [true,         ['debug' => true]],
-            'auth-path'   => [true,         ['oauth2clientauthentication' => ['auth_path' => '/oauth2']]],
+            'no-config'   => [false, []],
+            'no-debug'    => [true, []],
+            'debug-false' => [true, ['debug' => false]],
+            'debug-true'  => [true, ['debug' => true]],
+            'auth-path'   => [true, ['oauth2clientauthentication' => ['auth_path' => '/oauth2']]],
         ];
     }
 
@@ -50,8 +52,8 @@ class UnauthorizedResponseFactoryTest extends TestCase
         bool $hasConfig,
         array $config
     ) {
-        $debug = array_key_exists('debug', $config) ? $config['debug'] : false;
-        $authPath = $config['oauth2clientauthentication']['auth_path']
+        $debug        = array_key_exists('debug', $config) ? $config['debug'] : false;
+        $authPath     = $config['oauth2clientauthentication']['auth_path']
             ?? UnauthorizedResponseFactoryFactory::DEFAULT_AUTH_PATH;
         $redirectPath = '/some/path';
 
@@ -76,8 +78,8 @@ class UnauthorizedResponseFactoryTest extends TestCase
         $renderer
             ->render(UnauthorizedResponseFactoryFactory::DEFAULT_TEMPLATE, [
                 'auth_path' => $authPath,
-                'redirect' => $redirectPath,
-                'debug' => $debug,
+                'redirect'  => $redirectPath,
+                'debug'     => $debug,
             ])
             ->willReturn('content');
 
@@ -99,7 +101,7 @@ class UnauthorizedResponseFactoryTest extends TestCase
         $this->container->get(TemplateRendererInterface::class)->will([$renderer, 'reveal']);
 
         $factory = ($this->factory)($this->container->reveal());
-        $result = $factory($request->reveal());
+        $result  = $factory($request->reveal());
         $this->assertSame($response->reveal(), $result);
     }
 }

@@ -1,16 +1,15 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace Phly\Expressive\OAuth2ClientAuthentication;
+namespace Phly\Mezzio\OAuth2ClientAuthentication;
 
+use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Zend\Expressive\Template\TemplateRendererInterface;
+
+use function array_key_exists;
 
 /**
  * Generate a callable capable of producing an "unauthorized" response.
@@ -33,15 +32,15 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 class UnauthorizedResponseFactoryFactory
 {
     public const DEFAULT_AUTH_PATH = '/auth';
-    public const DEFAULT_TEMPLATE = 'oauth2clientauthentication::401';
+    public const DEFAULT_TEMPLATE  = 'oauth2clientauthentication::401';
 
-    public function __invoke(ContainerInterface $container) : callable
+    public function __invoke(ContainerInterface $container): callable
     {
-        return function (Request $request) use ($container) : ResponseInterface {
+        return function (Request $request) use ($container): ResponseInterface {
             $originalRequest = $request->getAttribute('originalRequest', $request);
 
-            $config = $container->has('config') ? $container->get('config') : [];
-            $debug  = array_key_exists('debug', $config) ? $config['debug'] : false;
+            $config   = $container->has('config') ? $container->get('config') : [];
+            $debug    = array_key_exists('debug', $config) ? $config['debug'] : false;
             $authPath = $config['oauth2clientauthentication']['auth_path'] ?? self::DEFAULT_AUTH_PATH;
 
             $view = [

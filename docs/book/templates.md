@@ -69,7 +69,7 @@ Below, we demonstrate each of the default shipped versions.
 {% endblock %}
 ```
 
-## zend-view
+## laminas-view
 
 ```php
 <?php $this->headTitle('Unauthorized') ?>
@@ -98,8 +98,8 @@ Below, we demonstrate each of the default shipped versions.
 ## Mustache
 
 This example can be used via the 
-[phly-expressive-mustache](https://github.com/phly/phly-expressive-mustache)
-renderer for zend-expressive-template:
+[phly-mezzio-mustache](https://github.com/phly/phly-mezzio-mustache)
+renderer for mezzio-template:
 
 ```mustache
 {{<layout::layout}}

@@ -5,7 +5,7 @@ from a specific domain &mdash; and this can be problematic when testing your
 OAuth2 client workflow or pages behind authentication.
 
 To help solve this problem, this package provides a custom league/oauth2-client
-provider, `Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugProvider`,
+provider, `Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugProvider`,
 along with an associated "authorization" handler.
 
 These features are only enabled when you enable the application `debug` flag;

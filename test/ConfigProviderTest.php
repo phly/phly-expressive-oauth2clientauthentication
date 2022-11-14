@@ -1,26 +1,23 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
-use Phly\Expressive\OAuth2ClientAuthentication\ConfigProvider;
+use Phly\Mezzio\OAuth2ClientAuthentication\ConfigProvider;
 use PHPUnit\Framework\TestCase;
 
 class ConfigProviderTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->provider = new ConfigProvider();
     }
 
-    public function testInvocationReturnsArray()
+    public function testInvocationReturnsArray(): array
     {
         $config = ($this->provider)();
-        $this->assertInternalType('array', $config);
+        $this->assertIsArray($config);
         return $config;
     }
 
@@ -30,6 +27,6 @@ class ConfigProviderTest extends TestCase
     public function testReturnedArrayContainsDependencies(array $config)
     {
         $this->assertArrayHasKey('dependencies', $config);
-        $this->assertInternalType('array', $config['dependencies']);
+        $this->assertIsArray($config['dependencies']);
     }
 }

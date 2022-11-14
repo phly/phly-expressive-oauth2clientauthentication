@@ -1,37 +1,39 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace PhlyTest\Expressive\OAuth2ClientAuthentication;
+namespace PhlyTest\Mezzio\OAuth2ClientAuthentication;
 
+use Generator;
 use League\OAuth2\Client\Provider;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Phly\Expressive\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
-use Phly\Expressive\OAuth2ClientAuthentication\Exception;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2Adapter;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2ProviderFactory;
-use Phly\Expressive\OAuth2ClientAuthentication\OAuth2User;
+use Mezzio\Session\SessionInterface;
+use Mezzio\Session\SessionMiddleware;
+use Phly\Mezzio\OAuth2ClientAuthentication\Debug\DebugResourceOwner;
+use Phly\Mezzio\OAuth2ClientAuthentication\Exception\OAuth2ProviderException;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2Adapter;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2ProviderFactory;
+use Phly\Mezzio\OAuth2ClientAuthentication\OAuth2User;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RuntimeException;
-use Zend\Expressive\Session\SessionInterface;
-use Zend\Expressive\Session\SessionMiddleware;
+
+use function array_merge;
 
 class OAuth2AdapterTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait;
+
+    public function setUp(): void
     {
         $this->providerFactory = $this->prophesize(OAuth2ProviderFactory::class);
     }
 
-    public function createNoOpCallback() : callable
+    public function createNoOpCallback(): callable
     {
         return function () {
         };
@@ -43,7 +45,7 @@ class OAuth2AdapterTest extends TestCase
         $session->get('auth')->willReturn([
             'user' => [
                 'username' => 'foobar',
-                'other' => 'data',
+                'other'    => 'data',
             ],
         ]);
 
@@ -84,7 +86,7 @@ class OAuth2AdapterTest extends TestCase
             $this->createNoOpCallback()
         );
 
-        $this->expectException(Exception\OAuth2ProviderException::class);
+        $this->expectException(OAuth2ProviderException::class);
         $this->expectExceptionMessage('Error raised by provider');
         $this->expectExceptionCode(401);
         $result = $adapter->authenticate($request->reveal());
@@ -113,10 +115,10 @@ class OAuth2AdapterTest extends TestCase
         $this->assertNull($adapter->authenticate($request->reveal()));
     }
 
-    public function authorizationRequestParams()
+    public function authorizationRequestParams(): array
     {
         return [
-            'empty' => [[]],
+            'empty'         => [[]],
             'with-redirect' => [['redirect' => 'https://example.com/origin']],
         ];
     }
@@ -124,13 +126,13 @@ class OAuth2AdapterTest extends TestCase
     /**
      * @dataProvider authorizationRequestParams
      */
-    public function testReturnsNullAndUpdatesSessionWhenRequestingAuthorization($queryParams)
+    public function testReturnsNullAndUpdatesSessionWhenRequestingAuthorization(array $queryParams)
     {
-        $providerType = 'unit-test';
+        $providerType  = 'unit-test';
         $providerState = 'authenticate';
-        $authUrl = 'https://oauth2.example.com/';
-        $sessionData = [
-            'state' => $providerState,
+        $authUrl       = 'https://oauth2.example.com/';
+        $sessionData   = [
+            'state'             => $providerState,
             'authorization_url' => $authUrl,
         ];
         if (isset($queryParams['redirect'])) {
@@ -165,11 +167,11 @@ class OAuth2AdapterTest extends TestCase
         $this->assertNull($adapter->authenticate($request->reveal()));
     }
 
-    public function invalidProviderStates()
+    public function invalidProviderStates(): array
     {
         return [
             //               [query params, session data]
-            'empty-empty' => [[],                          []],
+            'empty-empty' => [[], []],
             'state-empty' => [['state' => 'authenticate'], []],
             'state-state' => [['state' => 'authenticate'], ['state' => 'different']],
         ];
@@ -182,7 +184,7 @@ class OAuth2AdapterTest extends TestCase
         array $queryParams,
         array $sessionData
     ) {
-        $queryParams = array_merge($queryParams, [
+        $queryParams  = array_merge($queryParams, [
             'code' => 'oauth2-authorization-token',
         ]);
         $providerType = 'unit-test';
@@ -218,12 +220,12 @@ class OAuth2AdapterTest extends TestCase
     public function testExceptionWhenRetrievingAccessTokenRaisesNewException()
     {
         $providerState = 'authenticate';
-        $providerType = 'unit-test';
-        $queryParams = [
-            'code' => 'oauth2-authorization-token',
+        $providerType  = 'unit-test';
+        $queryParams   = [
+            'code'  => 'oauth2-authorization-token',
             'state' => $providerState,
         ];
-        $sessionData = [
+        $sessionData   = [
             'state' => $providerState,
         ];
 
@@ -240,7 +242,7 @@ class OAuth2AdapterTest extends TestCase
             ->getAttribute('provider')
             ->willReturn($providerType);
 
-        $accessTokenException = new RuntimeException('thrown');
+        $accessTokenException = new OAuth2ProviderException('thrown', 401);
 
         $provider = $this->prophesize(AbstractProvider::class);
         $provider
@@ -255,7 +257,7 @@ class OAuth2AdapterTest extends TestCase
             $this->createNoOpCallback()
         );
 
-        $this->expectException(Exception\OAuth2ProviderException::class);
+        $this->expectException(OAuth2ProviderException::class);
         $this->expectExceptionMessage('thrown');
         $this->expectExceptionCode(401);
         $adapter->authenticate($request->reveal());
@@ -264,12 +266,12 @@ class OAuth2AdapterTest extends TestCase
     public function testExceptionWhenRetrievingResourceOwnerRaisesNewException()
     {
         $providerState = 'authenticate';
-        $providerType = 'unit-test';
-        $queryParams = [
-            'code' => 'oauth2-authorization-token',
+        $providerType  = 'unit-test';
+        $queryParams   = [
+            'code'  => 'oauth2-authorization-token',
             'state' => $providerState,
         ];
-        $sessionData = [
+        $sessionData   = [
             'state' => $providerState,
         ];
 
@@ -286,7 +288,7 @@ class OAuth2AdapterTest extends TestCase
             ->getAttribute('provider')
             ->willReturn($providerType);
 
-        $resourceOwnerException = new RuntimeException('thrown');
+        $resourceOwnerException = new OAuth2ProviderException('thrown', 401);
 
         $accessToken = $this->prophesize(AccessToken::class);
 
@@ -306,24 +308,23 @@ class OAuth2AdapterTest extends TestCase
             $this->createNoOpCallback()
         );
 
-        $this->expectException(Exception\OAuth2ProviderException::class);
+        $this->expectException(OAuth2ProviderException::class);
         $this->expectExceptionMessage('thrown');
         $this->expectExceptionCode(401);
         $adapter->authenticate($request->reveal());
     }
 
-    public function resourceOwners()
+    public function resourceOwners(): Generator
     {
         $sessionTypes = [
             'no-redirect' => [],
-            'redirect' => ['redirect' => '/some/pageA,']
+            'redirect'    => ['redirect' => '/some/pageA,'],
         ];
-        $github = new Provider\GithubResourceOwner(['email' => 'joe@example.com']);
-        $google = new Provider\GoogleUser(['emails' => [
-            ['value' => 'joe@example.com'],
-        ]]);
-        $instagram = new Provider\InstagramResourceOwner(['data' => ['username' => 'joeexamplecom']]);
-        $debug = new DebugResourceOwner();
+
+        $github    = new Provider\GithubResourceOwner(['email' => 'joe@example.com']);
+        $google    = new Provider\GithubResourceOwner(['email' => 'joe@example.com']);
+        $instagram = new Provider\InstagramResourceOwner(['username' => 'joeexamplecom']);
+        $debug     = new DebugResourceOwner();
 
         foreach ($sessionTypes as $key => $sessionData) {
             $name = 'github-' . $key;
@@ -333,10 +334,10 @@ class OAuth2AdapterTest extends TestCase
             yield $name => ['google', $google, $google->getEmail(), $sessionData];
 
             $name = 'instagram-' . $key;
-            yield 'instagram' => ['instagram', $instagram, $instagram->getNickname(), $sessionData];
+            yield $name => ['instagram', $instagram, $instagram->getNickname(), $sessionData];
 
             $name = 'debug-' . $key;
-            yield 'debug' => ['debug', $debug, DebugResourceOwner::USER_ID, $sessionData];
+            yield $name => ['debug', $debug, DebugResourceOwner::USER_ID, $sessionData];
         }
     }
 
@@ -346,23 +347,22 @@ class OAuth2AdapterTest extends TestCase
     public function testSuccessfulProviderAuthorizationSetsUserDataInSession(
         string $providerType,
         ResourceOwnerInterface $resourceOwner,
-        string $username,
+        ?string $username,
         array $sessionData
     ) {
-        $providerState = 'authenticate';
-        $queryParams = [
-            'code' => 'oauth2-authorization-token',
+        $providerState                      = 'authenticate';
+        $queryParams                        = [
+            'code'  => 'oauth2-authorization-token',
             'state' => $providerState,
         ];
-        $sessionData = array_merge($sessionData, [
+        $sessionData                        = array_merge($sessionData, [
             'state' => $providerState,
         ]);
-        $newSessionData = $sessionData;
-        $newSessionData['user'] = $resourceOwner->toArray();
+        $newSessionData                     = $sessionData;
+        $newSessionData['user']             = $resourceOwner->toArray();
         $newSessionData['user']['username'] = $username;
-        $newSessionData['redirect'] = $sessionData['redirect'] ?? '/';
-
-        $session = $this->prophesize(SessionInterface::class);
+        $newSessionData['redirect']         = $sessionData['redirect'] ?? '/';
+        $session                            = $this->prophesize(SessionInterface::class);
         $session->get('auth')->willReturn($sessionData);
         $session->set('auth', $newSessionData)->shouldBeCalled();
 
@@ -398,8 +398,8 @@ class OAuth2AdapterTest extends TestCase
 
     public function testSuccessfulAuthorizationResultsInRedirectToSessionRedirectValue()
     {
-        $sessionData = [
-            'user' => ['username' => 'joe@example.com'],
+        $sessionData    = [
+            'user'     => ['username' => 'joe@example.com'],
             'redirect' => '/some/page',
         ];
         $newSessionData = $sessionData;
@@ -432,7 +432,7 @@ class OAuth2AdapterTest extends TestCase
 
     public function testRequestForAuthorizationResultsInRedirectToProviderAuthorizationUrl()
     {
-        $sessionData = [
+        $sessionData    = [
             'authorization_url' => 'https://oauth2.example.com/',
         ];
         $newSessionData = $sessionData;

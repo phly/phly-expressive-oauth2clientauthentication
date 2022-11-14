@@ -1,11 +1,8 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace Phly\Expressive\OAuth2ClientAuthentication\Exception;
+namespace Phly\Mezzio\OAuth2ClientAuthentication\Exception;
 
 /**
  * Marker interface for package exceptions.

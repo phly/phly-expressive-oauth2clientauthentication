@@ -1,17 +1,16 @@
 <?php
 
-/**
- * @license http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
- * @copyright Copyright (c) Matthew Weier O'Phinney
- */
+declare(strict_types=1);
 
-namespace Phly\Expressive\OAuth2ClientAuthentication\Exception;
+namespace Phly\Mezzio\OAuth2ClientAuthentication\Exception;
 
 use RuntimeException;
 
+use function sprintf;
+
 class MissingProviderConfigException extends RuntimeException implements ExceptionInterface
 {
-    public static function forProvider(string $provider) : self
+    public static function forProvider(string $provider): self
     {
         return new self(sprintf(
             'No configuration found for OAuth2 provider "%s"; please provide it via '
@@ -21,7 +20,7 @@ class MissingProviderConfigException extends RuntimeException implements Excepti
         ));
     }
 
-    public static function forProviderKey(string $provider) : self
+    public static function forProviderKey(string $provider): self
     {
         return new self(sprintf(
             'No provider key found for OAuth2 provider "%s"; please provide it via '
