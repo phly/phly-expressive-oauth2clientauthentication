@@ -1,5 +1,9 @@
 # phly-expressive-oauth2clientauthentication
 
+> :warning: **Archived 2025-08-17**
+> 
+> Use at your own risk.
+
 [![Build Status](https://secure.travis-ci.org/phly/phly-expressive-oauth2clientauthentication.svg?branch=master)](https://secure.travis-ci.org/phly/phly-expressive-oauth2clientauthentication)
 [![Coverage Status](https://coveralls.io/repos/github/phly/phly-expressive-oauth2clientauthentication/badge.svg?branch=master)](https://coveralls.io/github/phly/phly-expressive-oauth2clientauthentication?branch=master)
 
